@@ -1,4 +1,6 @@
 import data from '../lib/site';
+import SectionHeader from './ui/SectionHeader';
+import Chip from './ui/Chip';
 
 const { skills } = data;
 
@@ -13,12 +15,7 @@ const SkillCard = ({ category, index }) => (
     </h3>
     <div className="flex flex-wrap gap-2">
       {category.skills.map((skill) => (
-        <span
-          key={skill}
-          className="px-3 py-1.5 text-xs md:text-sm font-bold text-white/80 bg-white/5 rounded-full border border-white/10 hover:bg-red-500/20 hover:border-red-500/30 hover:text-red-300 transition-all duration-300 cursor-default"
-        >
-          {skill}
-        </span>
+        <Chip key={skill} size="md">{skill}</Chip>
       ))}
     </div>
   </div>
@@ -33,18 +30,11 @@ const TechnicalSkills = () => {
 
       <div className="max-w-6xl mx-auto relative z-10">
 
-        {/* Header */}
-        <div data-aos="fade-up" className="mb-16 text-center">
-          <div className="inline-block border border-white/20 rounded-full px-5 py-1.5 text-sm text-white/60 font-bold mb-6 shadow-sm bg-white/5 backdrop-blur-sm">
-            {skills.badge}
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-4 uppercase">
-            {skills.heading}
-          </h2>
-          <p className="text-white/50 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-            {skills.description}
-          </p>
-        </div>
+        <SectionHeader
+          badge={skills.badge}
+          heading={skills.heading}
+          description={skills.description}
+        />
 
         {/* Skills Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">

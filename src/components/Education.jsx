@@ -1,4 +1,5 @@
 import data from '../lib/site';
+import SectionHeader from './ui/SectionHeader';
 
 const { education, educationSection } = data;
 
@@ -31,15 +32,7 @@ const Education = () => {
     >
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
-        <div data-aos="fade-up" className="mb-16 text-center">
-          <div className="inline-block border border-gray-300 rounded-full px-5 py-1.5 text-sm text-gray-600 font-bold mb-6 shadow-sm bg-white">
-            Academics
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight uppercase">
-            {educationSection.heading}
-          </h2>
-        </div>
+        <SectionHeader badge="Academics" heading={educationSection.heading} tone="light" />
 
         {/* Education Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">

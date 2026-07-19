@@ -1,5 +1,7 @@
 import data from '../lib/site';
 import { GitHubIcon, ExternalLinkIcon } from './SocialIcons';
+import SectionHeader from './ui/SectionHeader';
+import Chip from './ui/Chip';
 
 const { projects, projectsSection, socialLinks } = data;
 
@@ -76,12 +78,7 @@ const ProjectCard = ({ project, aosDelay }) => (
       {/* Tech Tags */}
       <div className="flex flex-wrap gap-2 mb-8">
         {project.techTags.map((tag) => (
-          <span
-            key={tag}
-            className="px-3 py-1 text-xs font-bold text-white/70 bg-white/5 rounded-full border border-white/10 hover:bg-red-500/20 hover:border-red-500/30 hover:text-red-300 transition-all duration-300 cursor-default"
-          >
-            {tag}
-          </span>
+          <Chip key={tag}>{tag}</Chip>
         ))}
       </div>
 
@@ -113,18 +110,15 @@ const Projects = () => {
     <section id="projects" className="bg-[#0a0a0a] pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:80px_80px]">
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
-        <div data-aos="fade-up" className="mb-16 md:mb-20">
-          <div className="inline-block border border-white/20 rounded-full px-5 py-1.5 text-sm text-white/60 font-bold mb-8 shadow-sm bg-white/5 backdrop-blur-sm">
-            {projectsSection.badge}
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight">
-            Work that speaks <br className="hidden md:block" />for itself
-          </h2>
-          <p className="text-white/50 text-base md:text-lg max-w-lg font-medium leading-relaxed">
-            {projectsSection.description}
-          </p>
-        </div>
+        <SectionHeader
+          badge={projectsSection.badge}
+          heading={<>Work that speaks <br className="hidden md:block" />for itself</>}
+          description={projectsSection.description}
+          align="left"
+          size="lg"
+          uppercase={false}
+          className="mb-16 md:mb-20"
+        />
 
         {/* Project Cards */}
         <div className="flex flex-col gap-6 md:gap-8">

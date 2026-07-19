@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import data from '../lib/site';
+import TornDivider from './ui/TornDivider';
+import Star from './ui/Star';
 
 const { about, personalInfo } = data;
 
@@ -121,20 +123,11 @@ const About = () => {
         </div>
       </div>
 
-      {/* Torn paper divider at bottom */}
-      <div className="absolute bottom-0 left-0 w-full pointer-events-none z-30 transform translate-y-1">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-12 md:h-20 fill-[#0a0a0a]">
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,119.62,189.5,99.8,242.79,81.82,282.88,63.6,321.39,56.44Z"></path>
-        </svg>
-      </div>
+      <TornDivider position="bottom" />
 
       {/* Decorative stars */}
-      <div className="absolute top-10 right-10 md:right-20 text-black opacity-30 animate-pulse">
-        <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0l2.5 8.5L23 12l-8.5 2.5L12 23l-2.5-8.5L1 12l8.5-2.5z"/></svg>
-      </div>
-      <div className="absolute bottom-32 left-4 md:left-20 text-black opacity-30 animate-pulse" style={{ animationDelay: '1s' }}>
-        <svg className="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0l2.5 8.5L23 12l-8.5 2.5L12 23l-2.5-8.5L1 12l8.5-2.5z"/></svg>
-      </div>
+      <Star className="top-10 right-10 md:right-20 opacity-30" />
+      <Star className="bottom-32 left-4 md:left-20 opacity-30" size="w-20 h-20" style={{ animationDelay: '1s' }} />
     </section>
   );
 };
