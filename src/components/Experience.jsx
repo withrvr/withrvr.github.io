@@ -39,7 +39,7 @@ const ExperienceCard = ({ job, index }) => (
 
 const Experience = () => {
   return (
-    <section id="experience" className="bg-[#ff2a2a] pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans">
+    <section id="experience" className="bg-[#ff2a2a] min-h-screen pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans">
 
       <TornDivider position="top" />
 

@@ -23,12 +23,12 @@ const SkillCard = ({ category, index }) => (
 
 const TechnicalSkills = () => {
   return (
-    <section id="skills" className="bg-[#0a0a0a] pt-24 pb-28 px-6 md:px-12 w-full relative overflow-hidden font-sans">
+    <section id="skills" className="bg-[#0a0a0a] min-h-screen flex flex-col justify-center pt-24 pb-24 px-6 md:px-12 w-full relative overflow-hidden font-sans">
       {/* Background visual elements */}
       <div className="absolute top-1/4 left-10 w-96 h-96 bg-red-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 w-full">
 
         <SectionHeader
           badge={skills.badge}
@@ -37,7 +37,7 @@ const TechnicalSkills = () => {
         />
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4">
           {skills.categories.map((category, index) => (
             <SkillCard key={category.title} category={category} index={index} />
           ))}

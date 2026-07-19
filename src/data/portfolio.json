@@ -29,7 +29,7 @@
     "video": "/media/hero_video.mp4",
     "ctaPrimary": { "text": "View My Work", "href": "#projects" },
     "ctaSecondary": { "text": "Contact Me", "href": "#contact" },
-    "ctaResume": { "text": "Download Resume" }
+    "ctaResume": { "text": "View Resume" }
   },
   "about": {
     "heading": "Hello!",

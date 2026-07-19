@@ -11,14 +11,14 @@ const ProjectImages = ({ project }) => {
   if (project.imageLayout === 'phones') {
     // Portrait mobile screenshots side by side
     return (
-      <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8">
+      <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8 max-w-md md:max-w-xl">
         {project.images.map((src, i) => (
-          <div key={src} className="rounded-xl overflow-hidden border border-white/10 bg-black/40 max-h-72 md:max-h-96">
+          <div key={src} className="rounded-xl overflow-hidden border border-white/10 bg-black/40">
             <img
               src={src}
               alt={`${project.title} screenshot ${i + 1}`}
               loading="lazy"
-              className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
+              className="w-full h-auto hover:scale-105 transition-transform duration-700"
             />
           </div>
         ))}
@@ -107,7 +107,7 @@ const ProjectCard = ({ project, aosDelay }) => (
 
 const Projects = () => {
   return (
-    <section id="projects" className="bg-[#0a0a0a] pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:80px_80px]">
+    <section id="projects" className="bg-[#0a0a0a] min-h-screen pt-24 pb-32 px-6 md:px-12 w-full relative overflow-hidden font-sans bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:80px_80px]">
       <div className="max-w-6xl mx-auto">
 
         <SectionHeader
