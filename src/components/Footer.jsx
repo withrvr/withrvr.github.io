@@ -1,7 +1,13 @@
 import data, { buildMailto } from '../lib/site';
+import { APP_VERSION, GIT_COMMIT_HASH } from '../lib/version';
 import SocialIcons from './SocialIcons';
 
 const { footer, personalInfo, socialLinks } = data;
+
+const commitUrl =
+  GIT_COMMIT_HASH && GIT_COMMIT_HASH !== 'unknown'
+    ? `${socialLinks.github}/withrvr.github.io/commit/${GIT_COMMIT_HASH}`
+    : null;
 
 const Footer = () => {
   return (
@@ -37,9 +43,31 @@ const Footer = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 w-full items-end font-medium">
         <div className="flex flex-col gap-6">
           <a href="#contact" className="underline hover:text-white transition-colors underline-offset-4 decoration-1 font-bold">Contact</a>
-          <p className="text-white/60 font-mono text-[9px] md:text-[10px]">
-            © {new Date().getFullYear()} {personalInfo.name} | Built with React
-          </p>
+          <div className="flex flex-col gap-1.5">
+            <p className="text-white/60 font-mono text-[9px] md:text-[10px]">
+              © {new Date().getFullYear()} {personalInfo.name} | Built with React
+            </p>
+            <p className="text-white/40 font-mono text-[9px] md:text-[10px]">
+              v{APP_VERSION}
+              {GIT_COMMIT_HASH && (
+                <>
+                  {' · '}
+                  {commitUrl ? (
+                    <a
+                      href={commitUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-4 decoration-1 hover:text-white transition-colors"
+                    >
+                      {GIT_COMMIT_HASH}
+                    </a>
+                  ) : (
+                    <span>{GIT_COMMIT_HASH}</span>
+                  )}
+                </>
+              )}
+            </p>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 md:items-center">

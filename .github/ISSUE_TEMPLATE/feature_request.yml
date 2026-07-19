@@ -1,0 +1,55 @@
+name: ✨ Feature Request
+description: Suggest a new section, feature, or improvement for the site.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for the suggestion! Tell us what you'd like to see.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Is your request related to a problem or gap? Describe it.
+      placeholder: There's no easy way for visitors to…
+    validations:
+      required: false
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Describe the feature or improvement
+      description: A clear description of what you'd like added or changed.
+      placeholder: Add a "Speaking" section that lists conference talks…
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area of the site
+      options:
+        - Hero / intro
+        - About
+        - Skills
+        - Projects
+        - Experience
+        - Education
+        - Contact
+        - Footer
+        - Build / tooling / infrastructure
+        - Other / whole site
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you thought about?
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Mockups, links, or examples that help explain the idea.
+    validations:
+      required: false

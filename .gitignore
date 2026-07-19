@@ -7,10 +7,22 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build output
 dist
 dist-ssr
 *.local
+
+# Vite / tooling caches
+.vite
+node_modules/.vite
+.eslintcache
+
+# Test / coverage output (if ever added)
+coverage
+*.lcov
 
 # Editor directories and files
 .vscode/*
@@ -22,6 +34,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# OS files
+Thumbs.db
 
 # Local Environment Variables
 .env

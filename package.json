@@ -1,8 +1,26 @@
 {
   "name": "withrvr-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Personal portfolio of Raghav Vikram Rathi, Backend Software Engineer — a single-page React + Vite + Tailwind site deployed to GitHub Pages.",
   "type": "module",
+  "author": "Raghav Vikram Rathi <raghavrathi8855@gmail.com> (https://withrvr.github.io/)",
+  "license": "MIT",
+  "homepage": "https://withrvr.github.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/withrvr/withrvr.github.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/withrvr/withrvr.github.io/issues"
+  },
+  "keywords": [
+    "portfolio",
+    "react",
+    "vite",
+    "tailwindcss",
+    "github-pages"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",

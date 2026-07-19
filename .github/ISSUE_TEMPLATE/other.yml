@@ -1,0 +1,35 @@
+name: 📄 Other
+description: Anything that isn't a bug or a feature request (docs, content, tooling, question).
+title: "[Other]: "
+labels: ["triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Use this for anything that doesn't fit the Bug Report or Feature Request forms.
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Documentation
+        - Content / copy correction
+        - Tooling / dependencies / build
+        - SEO / accessibility
+        - Question
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Describe what this is about.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links, references, or anything else that helps.
+    validations:
+      required: false
