@@ -15,7 +15,7 @@ withrvr.github.io/
 ├── package.json               # version field is the single source of truth
 ├── public/                    # copied verbatim to dist root (not processed)
 │   ├── media/                 # images + hero video (served at /media/*)
-│   ├── raghav_rathi_backend_engineer_jul_2026.pdf   # resume
+│   ├── raghav_rathi_backend_engineer_20_july_2026_resume.pdf   # resume
 │   ├── 404.html               # GitHub Pages fallback → redirects to /
 │   ├── favicon.svg
 │   ├── robots.txt
@@ -37,6 +37,7 @@ withrvr.github.io/
 │       ├── TechnicalSkills.jsx# #skills: 5 category cards
 │       ├── Projects.jsx       # #projects: project cards (phones/wide layouts)
 │       ├── Experience.jsx     # #experience: role cards
+│       ├── Achievements.jsx   # #achievements: recognition cards with external links
 │       ├── Education.jsx      # #education: light-themed cards
 │       ├── Contact.jsx        # #contact: parallax big text + mailto card
 │       ├── Footer.jsx         # links, big wordmark, version + commit stamp

@@ -8,8 +8,8 @@
     "phone": "+91 8855996970",
     "email": "raghavrathi8855@gmail.com",
     "summary": "Backend Software Engineer building and shipping production systems across the Python ecosystem and AI/LLM integration. Work recognized at the Global Fintech Festival 2025.",
-    "resumeUrl": "/raghav_rathi_backend_engineer_jul_2026.pdf",
-    "resumeFileName": "raghav_rathi_backend_engineer_jul_2026.pdf"
+    "resumeUrl": "/raghav_rathi_backend_engineer_20_july_2026_resume.pdf",
+    "resumeFileName": "raghav_rathi_backend_engineer_20_july_2026_resume.pdf"
   },
   "socialLinks": {
     "github": "https://github.com/withrvr",
@@ -27,19 +27,32 @@
     "subtitle": "I build and ship production systems across the Python ecosystem, from AsyncIO pipelines and FastAPI microservices to AI/LLM integrations.",
     "image": "/media/hero_image.webp",
     "video": "/media/hero_video.mp4",
-    "ctaPrimary": { "text": "View My Work", "href": "#projects" },
-    "ctaSecondary": { "text": "Contact Me", "href": "#contact" },
-    "ctaResume": { "text": "View Resume" }
+    "ctaPrimary": {
+      "text": "View My Work",
+      "href": "#projects"
+    },
+    "ctaSecondary": {
+      "text": "Contact Me",
+      "href": "#contact"
+    },
+    "ctaResume": {
+      "text": "View Resume"
+    }
   },
   "about": {
     "heading": "Hello!",
     "photo": "/media/profile_photo.jpg",
     "bio": "I'm a backend software engineer based in Mumbai, India, building and shipping production systems across the Python ecosystem, from high-concurrency AsyncIO pipelines to AI/LLM-powered microservices.",
     "more": [
-      "At Homeville Group I work on AI microservices and Python ecosystem projects under the VP of Technology, rebuilding loan processing pipelines, shipping Tier-1 bank integrations, and modernizing OCR and reconciliation systems.",
+      "At Homeville Group I work on AI microservices, LLM integration and Python ecosystem projects under the VP of Technology, rebuilding loan processing pipelines, shipping Tier-1 bank integrations, and modernizing OCR and reconciliation systems.",
       "My work was recognized at the Global Fintech Festival 2025."
     ],
-    "highlights": ["Python", "FastAPI", "Django"]
+    "highlights": [
+      "Python",
+      "FastAPI",
+      "Django",
+      "MySQL"
+    ]
   },
   "skills": {
     "badge": "Technical Stack",
@@ -48,23 +61,60 @@
     "categories": [
       {
         "title": "Backend",
-        "skills": ["Python", "FastAPI", "Pydantic", "Django", "AsyncIO", "Celery", "RESTful APIs", "Microservices", "Frappe"]
+        "skills": [
+          "Python",
+          "FastAPI",
+          "Pydantic",
+          "Django",
+          "AsyncIO",
+          "Celery",
+          "RESTful APIs",
+          "Microservices",
+          "Frappe"
+        ]
       },
       {
         "title": "Database",
-        "skills": ["MySQL", "PostgreSQL", "MongoDB", "Redis", "Query Optimization", "SQL/NoSQL"]
+        "skills": [
+          "MySQL",
+          "PostgreSQL",
+          "MongoDB",
+          "Redis",
+          "Query Optimization",
+          "SQL/NoSQL"
+        ]
       },
       {
         "title": "DevOps & Cloud",
-        "skills": ["AWS S3/EC2", "GCP GCS/VM", "Docker", "CI/CD", "Linux", "Git", "CRON"]
+        "skills": [
+          "AWS S3/EC2",
+          "GCP GCS/VM",
+          "Docker",
+          "CI/CD",
+          "Linux",
+          "Git",
+          "CRON"
+        ]
       },
       {
         "title": "AI / GenAI",
-        "skills": ["LLM Integration", "Gemini API", "Claude Code"]
+        "skills": [
+          "LLM Integration",
+          "Gemini API",
+          "Claude Code"
+        ]
       },
       {
         "title": "Frontend Exposure",
-        "skills": ["JavaScript", "TypeScript", "HTML/CSS", "React", "Next.js", "Tailwind CSS", "Chart.js"]
+        "skills": [
+          "JavaScript",
+          "TypeScript",
+          "HTML/CSS",
+          "React",
+          "Next.js",
+          "Tailwind CSS",
+          "Chart.js"
+        ]
       }
     ]
   },
@@ -79,13 +129,32 @@
       "number": "01",
       "badge": "Rust · Open Source",
       "title": "TypeRush",
-      "description": "A cross-platform terminal typing trainer built in Rust with live WPM and accuracy tracking across 5 modes. Features a themeable TUI with a configurable settings system and persistent session history across runs. Developed end to end with AI-assisted coding in Claude Code, shipping CI-built binaries for Linux, macOS, and Windows.",
-      "techTags": ["Rust", "TUI", "GitHub Actions", "Claude Code"],
-      "images": ["/media/typerush.png"],
+      "bullets": [
+        "Built a cross-platform terminal typing trainer in Rust with live WPM and accuracy tracking across 5 modes.",
+        "Added a themeable TUI with a configurable settings system and persistent session history across runs.",
+        "Developed end to end with AI-assisted coding in Claude Code, shipping CI-built binaries for Linux, macOS, and Windows."
+      ],
+      "techTags": [
+        "Rust",
+        "TUI",
+        "GitHub Actions",
+        "Claude Code"
+      ],
+      "images": [
+        "/media/typerush.png"
+      ],
       "imageLayout": "wide",
       "links": [
-        { "label": "GitHub", "href": "https://github.com/withrvr/typerush", "icon": "github" },
-        { "label": "crates.io", "href": "https://crates.io/crates/typerush", "icon": "external" }
+        {
+          "label": "GitHub",
+          "href": "https://github.com/withrvr/typerush",
+          "icon": "github"
+        },
+        {
+          "label": "crates.io",
+          "href": "https://crates.io/crates/typerush",
+          "icon": "external"
+        }
       ],
       "isFlagship": true
     },
@@ -94,12 +163,30 @@
       "number": "02",
       "badge": null,
       "title": "1Link: Modular Link Aggregator",
-      "description": "A modular Django monorepo architected with 7 decoupled apps for independent scaling. Exposes a RESTful API layer with DRF serializers, user registration, and dynamic profile URL routing. Integrates PostgreSQL for relational storage, Redis powering the leaderboard, and Celery for async background jobs.",
-      "techTags": ["Python", "Django", "DRF", "PostgreSQL", "Redis", "Celery"],
-      "images": ["/media/1link_1.jpeg", "/media/1link_2.jpeg", "/media/1link_3.jpeg"],
+      "bullets": [
+        "Architected a modular Django monorepo with 7 decoupled apps for independent scaling.",
+        "Exposed a RESTful API layer with DRF serializers, user registration, and dynamic profile URL routing.",
+        "Integrated PostgreSQL for relational storage, Redis powering the leaderboard, and Celery for async background jobs."
+      ],
+      "techTags": [
+        "Python",
+        "Django",
+        "DRF",
+        "PostgreSQL",
+        "Celery"
+      ],
+      "images": [
+        "/media/1link_1.jpeg",
+        "/media/1link_2.jpeg",
+        "/media/1link_3.jpeg"
+      ],
       "imageLayout": "phones",
       "links": [
-        { "label": "GitHub", "href": "https://github.com/withrvr/1Link", "icon": "github" }
+        {
+          "label": "GitHub",
+          "href": "https://github.com/withrvr/1Link",
+          "icon": "github"
+        }
       ],
       "isFlagship": false
     }
@@ -114,7 +201,7 @@
       "role": "Software Engineer",
       "duration": "June 2025 – Present",
       "location": "Mumbai, India",
-      "subtitle": "AI microservices and Python ecosystem projects under the VP of Technology",
+      "subtitle": "AI microservices, LLM integration and Python ecosystem projects under the VP of Technology",
       "bullets": [
         "Rebuilt a loan processing pipeline that crashed past 300 concurrent loans into one stably handling 6,000+ with AsyncIO.",
         "Cut batch runtime 95% from over 30 minutes to under 2 minutes across around 800K rows per run.",
@@ -158,6 +245,40 @@
   "educationSection": {
     "heading": "Education"
   },
+  "achievementsSection": {
+    "badge": "Recognition",
+    "heading": "Achievements",
+    "description": "Industry recognition and competitive programming milestones."
+  },
+  "achievements": [
+    {
+      "id": "gff2025",
+      "title": "Global Fintech Festival 2025",
+      "description": "Work recognized at the Global Fintech Festival 2025 for the Direct Assignment and Securitization project.",
+      "link": {
+        "label": "View on LinkedIn",
+        "href": "https://www.linkedin.com/posts/withrvr_finternet-tokenisation-financialinnovation-activity-7382068576091873280-1n9Y/"
+      }
+    },
+    {
+      "id": "coding-ninjas",
+      "title": "Coding Ninjas",
+      "description": "Earned the Master badge on Code360, placing in the top 4 percent.",
+      "link": {
+        "label": "View Code360 Profile",
+        "href": "https://www.naukri.com/code360/profile/withrvr"
+      }
+    },
+    {
+      "id": "leetcode",
+      "title": "LeetCode",
+      "description": "Contest Rating of 1,563 in the top 30 percent, with 400 plus problems solved and 11 badges earned.",
+      "link": {
+        "label": "View LeetCode Profile",
+        "href": "https://leetcode.com/u/withrvr/"
+      }
+    }
+  ],
   "education": [
     {
       "institution": "Thadomal Shahani Engineering College",
@@ -175,7 +296,7 @@
   "footer": {
     "taglines": [
       "Backend Software Engineering",
-      "Python · FastAPI · AsyncIO",
+      "Python · Django · FastAPI · AsyncIO",
       "Production Systems & AI/LLM Integration"
     ],
     "credential": "B.E. Computer Engineering · TSEC Mumbai",

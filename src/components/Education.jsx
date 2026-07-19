@@ -35,7 +35,7 @@ const Education = () => {
         <SectionHeader badge="Academics" heading={educationSection.heading} tone="light" />
 
         {/* Education Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+        <div className={`grid grid-cols-1 gap-6 md:gap-8 mx-auto ${education.length > 1 ? 'md:grid-cols-2 max-w-4xl' : 'max-w-xl'}`}>
           {education.map((entry, index) => (
             <EducationCard key={entry.institution} entry={entry} index={index} />
           ))}

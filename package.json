@@ -1,7 +1,7 @@
 {
   "name": "withrvr-portfolio",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Personal portfolio of Raghav Vikram Rathi, Backend Software Engineer — a single-page React + Vite + Tailwind site deployed to GitHub Pages.",
   "type": "module",
   "author": "Raghav Vikram Rathi <raghavrathi8855@gmail.com> (https://withrvr.github.io/)",

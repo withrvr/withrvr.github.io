@@ -70,10 +70,12 @@ const ProjectCard = ({ project, aosDelay }) => (
       {/* Screenshots */}
       <ProjectImages project={project} />
 
-      {/* Description */}
-      <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6 max-w-3xl font-medium">
-        {project.description}
-      </p>
+      {/* Description bullets (mirrors the resume) */}
+      <ul className="text-white/60 text-sm md:text-base leading-relaxed mb-6 font-medium space-y-2 pl-5 list-disc marker:text-red-400">
+        {project.bullets.map((bullet, i) => (
+          <li key={i}>{bullet}</li>
+        ))}
+      </ul>
 
       {/* Tech Tags */}
       <div className="flex flex-wrap gap-2 mb-8">

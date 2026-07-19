@@ -42,8 +42,8 @@ fully visible.)
 ## "Routing" — anchor navigation (single page)
 
 - There is **no router**. Every nav link is an in-page anchor: `#home`, `#about`,
-  `#skills`, `#projects`, `#experience`, `#education`, `#contact`. Each maps to a
-  section whose `id` matches.
+  `#skills`, `#projects`, `#experience`, `#achievements`, `#education`,
+  `#contact`. Each maps to a section whose `id` matches.
 - `html { scroll-behavior: smooth }` in `index.css` animates the jump.
 - **Adding a section** = add the component to `App.jsx` in the desired order,
   give it a matching `id`, and add its label to the `navLinks` array in
@@ -67,11 +67,14 @@ fully visible.)
 ## Resume viewing (`Hero.jsx`)
 
 - The **View Resume** button links to `personalInfo.resumeUrl`
-  (`/raghav_rathi_backend_engineer_jul_2026.pdf` in `public/`) and opens it in a
+  (`/raghav_rathi_backend_engineer_20_july_2026_resume.pdf` in `public/`) and opens it in a
   new tab (`target="_blank"`) for **in-browser viewing**, not a forced download.
   Viewers can download from the browser's built-in PDF controls.
 - To swap the resume: replace the PDF in `public/`, then update
-  `personalInfo.resumeUrl` (and `resumeFileName`) in `portfolio.json`.
+  `personalInfo.resumeUrl` (and `resumeFileName`) in `portfolio.json`. When
+  syncing site content to a new resume, see "Content sources when syncing with
+  a new resume" in `project-info.md` — resume omissions are not automatic
+  removals; cross-check LinkedIn/GitHub first.
 
 ## 404 / unknown URLs (`public/404.html`)
 

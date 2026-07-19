@@ -14,17 +14,16 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = ['Home', 'About', 'Skills', 'Projects', 'Experience', 'Education', 'Contact'];
+  const navLinks = ['Home', 'About', 'Skills', 'Projects', 'Experience', 'Achievements', 'Education', 'Contact'];
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isOpen
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isOpen
           ? 'bg-[#ff2a2a] py-4'
           : isScrolled
             ? 'bg-black/80 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] py-4'
             : 'bg-transparent py-6'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
 
@@ -80,9 +79,8 @@ const Navbar = () => {
 
       {/* Mobile Slide-Down Menu */}
       <div
-        className={`md:hidden absolute top-full left-0 w-full transition-all duration-300 overflow-hidden ${
-          isOpen ? 'max-h-[32rem] py-4 opacity-100 bg-[#ff2a2a] shadow-2xl' : 'max-h-0 opacity-0 bg-transparent'
-        }`}
+        className={`md:hidden absolute top-full left-0 w-full transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-[32rem] py-4 opacity-100 bg-[#ff2a2a] shadow-2xl' : 'max-h-0 opacity-0 bg-transparent'
+          }`}
       >
         <div className="flex flex-col px-6 space-y-4">
           {navLinks.map((link) => (

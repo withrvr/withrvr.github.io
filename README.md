@@ -36,14 +36,15 @@ npm run lint     # ESLint
 
 **All site content is in [`src/data/portfolio.json`](src/data/portfolio.json)** —
 personal info, social links, hero copy, about, skills, projects, experience,
-education, and footer. Editing that file is the intended way to change any text,
+achievements, education, and footer. Editing that file is the intended way to change any text,
 link, or asset path. Components read it through
 [`src/lib/site.js`](src/lib/site.js); don't hardcode copy in components.
 
 - Media assets live in [`public/media/`](public/media/) and are referenced by
   absolute path (`/media/...`).
-- The resume is `public/raghav_rathi_backend_engineer_jul_2026.pdf`; swap the
-  file and update `personalInfo.resumeUrl` to change it.
+- The resume is `public/raghav_rathi_backend_engineer_20_july_2026_resume.pdf`;
+  swap the file and update `personalInfo.resumeUrl` (and `resumeFileName`) to
+  change it.
 - SEO/social-preview tags and JSON-LD live in [`index.html`](index.html) and are
   **not** auto-synced from the JSON — mirror name/title/social changes there.
 

@@ -37,8 +37,19 @@ Node 22 is used in CI (`deploy.yml`). Package manager is npm (`package-lock.json
 ### 1. Content lives in one JSON file
 `src/data/portfolio.json` holds **every** piece of display text, link, and asset
 path — personal info, social links, hero copy, about, skills, projects,
-experience, education, footer. Editing that file is the intended way to change
-content. Do not hardcode copy or URLs inside components.
+experience, achievements, education, footer. Editing that file is the intended
+way to change content. Do not hardcode copy or URLs inside components.
+
+List-driven sections pair a `*Section` header object with a content array. The
+Achievements section is the reference example: `achievementsSection`
+(`{ badge, heading, description }`) plus `achievements`, an array of
+`{ id, title, description, link: { label, href } }`, rendered by
+`Achievements.jsx` (dark tone, placed between Experience and Education, links
+open in a new tab).
+
+Project cards use a `bullets` array (not a paragraph `description`) that
+mirrors the resume's project bullets verbatim, rendered as a red-markered
+list like Experience.
 
 ### 2. Always read content through `src/lib/site.js`
 Components import `data from '../lib/site'` (never the JSON directly). `site.js`
@@ -70,7 +81,18 @@ red sections get decorative `Star` accents.
 - Dark backgrounds: `#0a0a0a`, `#111111`, black
 - Accent red for hovers/markers: red-400/red-500 family
 
-### 8. SEO is in `index.html`, not React
+### 8. Content sources when syncing with a new resume
+The resume PDF in `public/` is the primary source of truth for site content,
+but it is not the only one — **cross-reference the owner's LinkedIn
+(https://www.linkedin.com/in/withrvr/) and GitHub (https://github.com/withrvr)
+before removing anything the resume omits.** The resume is space-constrained
+and may drop entries the site should keep. Standing decision (July 2026): the
+**Government Polytechnic Amravati diploma stays in `education`** (and in
+`index.html`'s JSON-LD `alumniOf`) even though the July 2026 resume lists only
+the B.E. — it is on LinkedIn. Additions/changes in the resume are applied
+directly; removals need a LinkedIn/GitHub check or owner confirmation first.
+
+### 9. SEO is in `index.html`, not React
 Title, meta description, Open Graph, Twitter card, JSON-LD Person schema, and the
 `<noscript>` crawlable fallback all live in `index.html`. If job title, name, or
 social links change in `portfolio.json`, mirror the relevant ones in
