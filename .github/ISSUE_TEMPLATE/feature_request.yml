@@ -30,11 +30,12 @@ body:
         - Hero / intro
         - About
         - Skills
-        - Projects
         - Experience
+        - Projects
+        - Achievements
         - Education
         - Contact
-        - Footer
+        - Footer / navbar
         - Build / tooling / infrastructure
         - Other / whole site
     validations:

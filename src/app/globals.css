@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Design tokens ported verbatim from the reference (teal, peach, cream).
+  Theme and palette are intentionally kept unchanged. Light on :root, dark on
+  the .dark class (next-themes attribute strategy).
+*/
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-peach: var(--peach);
+  --color-gold: var(--gold);
+
+  --font-sans: var(--font-manrope);
+  --font-mono: var(--font-manrope);
+  --font-heading: var(--font-fraunces);
+  --font-serif: var(--font-fraunces);
+  --font-script: var(--font-caveat);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+}
+
+:root {
+  --background: #FDF3E7;
+  --foreground: #1B3A35;
+  --card: #FBEADA;
+  --card-foreground: #1B3A35;
+  --popover: #FBEADA;
+  --popover-foreground: #1B3A35;
+  --primary: #1B6B5C;
+  --primary-foreground: #FDF3E7;
+  --secondary: #F2E2CE;
+  --secondary-foreground: #1B3A35;
+  --muted: #F2E2CE;
+  --muted-foreground: #4A5F5A;
+  --accent: #1B6B5C;
+  --accent-foreground: #FDF3E7;
+  --peach: #F2A785;
+  --gold: #F2C078;
+  --peach-text: #B85C34;
+  --gold-text: #9C6B1E;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: rgba(27, 58, 53, 0.12);
+  --input: rgba(27, 58, 53, 0.12);
+  --ring: #1B6B5C;
+  --radius: 0.625rem;
+}
+
+.dark {
+  --background: #0D1A17;
+  --foreground: #F5EBDD;
+  --card: #132420;
+  --card-foreground: #F5EBDD;
+  --popover: #132420;
+  --popover-foreground: #F5EBDD;
+  --primary: #3ECFB8;
+  --primary-foreground: #0D1A17;
+  --secondary: #182924;
+  --secondary-foreground: #F5EBDD;
+  --muted: #182924;
+  --muted-foreground: #B9CFC9;
+  --accent: #3ECFB8;
+  --accent-foreground: #0D1A17;
+  --peach: #F2A785;
+  --gold: #F2C078;
+  --peach-text: #F2A785;
+  --gold-text: #F2C078;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: rgba(245, 235, 221, 0.08);
+  --input: rgba(245, 235, 221, 0.08);
+  --ring: #3ECFB8;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+/*
+  Smooth cross-fade for the light/dark toggle so the switch doesn't flash.
+  Must live inside @layer base: Tailwind's utilities are layered, and
+  unlayered CSS beats every layered rule regardless of specificity, so an
+  unlayered version of this would silently win over every transition-*,
+  hover:*, and group-hover:* utility site-wide (it did, once) instead of
+  just providing a fallback for elements that don't already animate color.
+*/
+@layer base {
+  html,
+  body,
+  * {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 0.35s;
+    transition-timing-function: ease;
+  }
+}
+
+/* Custom scrollbar, themed for both modes. */
+html {
+  scrollbar-color: var(--primary) var(--background);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 999px;
+  border: 2px solid var(--background);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--primary) 80%, var(--foreground));
+}
+
+/*
+  Text selection highlight, themed instead of the browser default blue. Reads
+  from --primary, so it already adapts per theme with no separate dark rule.
+  A section can still override this locally with Tailwind's `selection:`
+  variant (e.g. `selection:bg-[color:var(--peach)]`) if one ever needs a
+  different accent; none currently does.
+*/
+::selection {
+  background-color: color-mix(in srgb, var(--primary) 35%, transparent);
+  color: var(--foreground);
+}
+::-moz-selection {
+  background-color: color-mix(in srgb, var(--primary) 35%, transparent);
+  color: var(--foreground);
+}
+
+/*
+  Visible keyboard focus for every interactive element. :focus-visible fires for
+  keyboard and assistive tech only, so pointer clicks never show the ring.
+*/
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Skip-to-content link, visually hidden until focused. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  border-radius: 0.5rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: transform 0.2s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* The skip target is focused programmatically; it should not draw its own ring. */
+#main-content:focus,
+#main-content:focus-visible {
+  outline: none;
+}
+
+/*
+  Set by Cursor.tsx only on a fine pointer with no reduced-motion preference.
+  !important beats any Tailwind cursor-* utility on individual elements, so the
+  animated custom cursor is the only cursor on screen while it is active.
+*/
+html.cursor-hidden,
+html.cursor-hidden * {
+  cursor: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .skip-link {
+    transition: none;
+  }
+  html,
+  body,
+  * {
+    transition: none;
+  }
+}

@@ -18,7 +18,7 @@ body:
     id: expected
     attributes:
       label: What did you expect to happen?
-      placeholder: The video should play once and return to the image.
+      placeholder: The video should play once and return to the poster image.
     validations:
       required: true
   - type: textarea
@@ -56,8 +56,8 @@ body:
     id: version
     attributes:
       label: Site version
-      description: The version/commit shown in the site footer (e.g. v1.0.0 · 9a8a78d), if visible.
-      placeholder: v1.0.0 · 9a8a78d
+      description: The version/commit shown in the site footer (e.g. v2.0.0 · 9a8a78d), if visible.
+      placeholder: v2.0.0 · 9a8a78d
     validations:
       required: false
   - type: textarea

@@ -1,0 +1,34 @@
+{
+  "shortName": "RVR",
+  "fullName": "Raghav Rathi",
+  "title": "Backend Software Engineer",
+  "pageTitle": "Raghav Rathi | Backend Software Engineer",
+  "location": "Mumbai, India",
+  "email": "raghavrathi8855@gmail.com",
+  "phone": "+91 88559 96970",
+  "resumeFallbackUrl": "https://drive.google.com/file/d/1Q6aHAMRMlef_HT59oVHJCgoEpQXvvR4h/view?usp=drive_link",
+  "meta": {
+    "ogTitle": "Raghav Rathi, Backend Software Engineer",
+    "ogDescription": "Backend Software Engineer building production systems across Django, Python, FastAPI, and AI/LLM integration. Work recognized at the Global Fintech Festival 2025.",
+    "ogImage": "/media/og_image.jpg",
+    "url": "https://withrvr.github.io",
+    "repoUrl": "https://github.com/withrvr/withrvr.github.io"
+  },
+  "socials": [
+    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/withrvr/", "icon": "linkedin" },
+    { "label": "GitHub", "href": "https://github.com/withrvr", "icon": "github" },
+    { "label": "LeetCode", "href": "https://leetcode.com/u/withrvr/", "icon": "leetcode" }
+  ],
+  "nav": [
+    { "label": "About", "href": "/#about" },
+    { "label": "Experience", "href": "/#experience" },
+    { "label": "Projects", "href": "/#projects" },
+    { "label": "Education", "href": "/#education" },
+    { "label": "Contact", "href": "/#contact" }
+  ],
+  "mail": {
+    "contactSubject": "New message from your portfolio",
+    "scheduleSubject": "Request for a 30 minute call",
+    "scheduleBody": "Hi Raghav,\n\nI would like to schedule a 30 minute call to talk. Here are a few time slots that work for me:\n\n1.\n2.\n3.\n\nA short note on what I would like to discuss:\n\nThanks,"
+  }
+}

@@ -1,47 +1,31 @@
-# Logs
-logs
-*.log
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# WSL/Windows alternate-data-stream junk left behind when media is copied in
+# from Windows. Harmless but pointless to commit or serve.
+*:Zone.Identifier
+
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+.pnpm-debug.log*
 
-# Dependencies
-node_modules
+# env files (NEXT_PUBLIC_RESUME_URL is public but set per environment)
+.env*
+!.env.example
 
-# Build output
-dist
-dist-ssr
-*.local
-
-# Vite / tooling caches
-.vite
-node_modules/.vite
-.eslintcache
-
-# Test / coverage output (if ever added)
-coverage
-*.lcov
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# OS files
-Thumbs.db
-
-# Local Environment Variables
-.env
-.env.local
-.env.*.local
-
-# Local source assets (site copies live in public/)
-assets/
+# typescript
+*.tsbuildinfo
+next-env.d.ts

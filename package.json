@@ -1,10 +1,10 @@
 {
-  "name": "withrvr-portfolio",
+  "name": "withrvr-portfolio-v2",
+  "version": "2.0.0",
   "private": true,
-  "version": "1.1.0",
-  "description": "Personal portfolio of Raghav Vikram Rathi, Backend Software Engineer — a single-page React + Vite + Tailwind site deployed to GitHub Pages.",
   "type": "module",
-  "author": "Raghav Vikram Rathi <raghavrathi8855@gmail.com> (https://withrvr.github.io/)",
+  "description": "Personal portfolio of Raghav Rathi (RVR), Backend Software Engineer. Next.js static export, frontend only.",
+  "author": "Raghav Rathi <raghavrathi8855@gmail.com> (https://withrvr.github.io/)",
   "license": "MIT",
   "homepage": "https://withrvr.github.io/",
   "repository": {
@@ -16,34 +16,47 @@
   },
   "keywords": [
     "portfolio",
+    "nextjs",
     "react",
-    "vite",
     "tailwindcss",
+    "framer-motion",
     "github-pages"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.3.0",
-    "aos": "^2.3.4",
-    "framer-motion": "^12.40.0",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "tailwindcss": "^4.3.0"
+    "@icons-pack/react-simple-icons": "13.13.0",
+    "clsx": "2.1.1",
+    "devicons-react": "1.5.0",
+    "lucide-react": "1.25.0",
+    "motion": "12.42.2",
+    "next": "16.2.11",
+    "next-themes": "0.4.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tailwind-merge": "3.6.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
-    "eslint": "^10.3.0",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
-    "globals": "^17.6.0",
-    "vite": "^8.0.12"
+    "@tailwindcss/postcss": "4.3.3",
+    "@testing-library/jest-dom": "7.0.0",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "26.1.1",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.4",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.2.11",
+    "jsdom": "29.1.1",
+    "postcss": "8.5.22",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10"
   }
 }

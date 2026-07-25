@@ -1,5 +1,8 @@
 name: Deploy to GitHub Pages
 
+# Vercel needs none of this: importing the repo there builds and serves the
+# static export automatically. This workflow is the GitHub Pages path.
+
 on:
   push:
     branches: [main]
@@ -18,17 +21,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v4
+        with:
+          # Full history so next.config can read the commit hash and date.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run lint
+      - run: npm test
       - run: npm run build
-      - uses: actions/configure-pages@v5
+        env:
+          # Optional. If this repository variable is unset the build falls back
+          # to resumeFallbackUrl in src/data/site.json, so the Resume button
+          # still renders and links somewhere valid.
+          NEXT_PUBLIC_RESUME_URL: ${{ vars.NEXT_PUBLIC_RESUME_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: out
 
   deploy:
     needs: build

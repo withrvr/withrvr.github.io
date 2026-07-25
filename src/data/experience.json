@@ -1,0 +1,57 @@
+{
+  "heading": "Where I've built",
+  "description": "Roles where I built and shipped real production systems.",
+  "roles": [
+    {
+      "id": "homeville",
+      "company": "Homeville Group",
+      "role": "Software Engineer",
+      "period": "Jun 2025 to Present",
+      "location": "Mumbai, India",
+      "subtitle": "AI microservices, LLM integration, and Python ecosystem projects under the VP of Technology",
+      "bullets": [
+        "Rebuilt a loan processing pipeline that crashed past 300 concurrent loans into one stably handling 6,000+ with AsyncIO.",
+        "Cut batch runtime 95% from over 30 minutes to under 2 minutes across around 800K rows per run.",
+        "Eliminated a MySQL query bottleneck, cutting query latency from 80 seconds to 7 seconds at high concurrency.",
+        "Spearheaded the end to end build of a FastAPI speech to text and translation service with Gemini API summaries.",
+        "Benchmarked open source and cloud transcription models and selected Fast Whisper for production.",
+        "Evaluated multi-cloud storage and compute economics across AWS S3 and GCP GCS for cross-cloud egress and migration.",
+        "Built and shipped 2 Tier-1 bank integrations end to end with idempotent data contracts for critical transactions.",
+        "Developed CRON driven async workers for event driven automation, anomaly detection, and reporting.",
+        "Automated conversion of production data into masked dummy datasets, replacing manual test data creation.",
+        "Built post-deployment validation scripts comparing old and new outputs, saving a day of manual cross-checks per release.",
+        "Migrated the multi-tenant reconciliation engine to Python, aligning it with the core backend stack.",
+        "Modernized the OCR pipeline with upgraded text extraction, image transformation, and PII masking for image and PDF."
+      ],
+      "tags": ["Python", "AsyncIO", "FastAPI", "MySQL", "Gemini API", "AWS", "GCP", "OCR"]
+    },
+    {
+      "id": "hn-web-marketing",
+      "company": "HN Web Marketing",
+      "role": "Software Engineer Intern",
+      "period": "Aug 2021 to Oct 2021",
+      "location": "Pune, India",
+      "subtitle": "Client projects on Linux production infrastructure",
+      "bullets": [
+        "Built and maintained deployment pipelines for 16+ production client environments on Linux infrastructure.",
+        "Delivered new client projects from scratch and updated existing ones to meet evolving client requirements.",
+        "Handled production troubleshooting, server configuration, system updates, and security across client environments."
+      ],
+      "tags": ["Linux", "Deployment", "Server Config", "Security"]
+    },
+    {
+      "id": "bitlance",
+      "company": "Bitlance Tech Hub Pvt Ltd",
+      "role": "Python and Django Developer Intern",
+      "period": "May 2020 to Jul 2020",
+      "location": "Amravati, India",
+      "subtitle": "Training internship, basic Python to advanced Django across multiple modules",
+      "bullets": [
+        "Built RESTful APIs with Django REST Framework and token based authentication.",
+        "Modeled data with Django ORM and managed it through customized Django Admin.",
+        "Built NumPy and Pandas pipelines to clean raw datasets and render Chart.js visualizations."
+      ],
+      "tags": ["Django", "DRF", "Django ORM", "NumPy", "Pandas"]
+    }
+  ]
+}

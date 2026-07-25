@@ -18,19 +18,22 @@ Closes #<!-- issue number, if applicable -->
 - [ ] 🐛 Bug fix (non-breaking change that fixes an issue)
 - [ ] ✨ Feature (non-breaking change that adds functionality)
 - [ ] 💥 Breaking change / redesign
-- [ ] 📝 Content update (`portfolio.json`, copy, assets)
+- [ ] 📝 Content update (`src/data/*.json`, copy, assets)
 - [ ] 🧰 Docs / tooling / infrastructure
 - [ ] ♻️ Refactor (no behavior change)
 
 ## Screenshots
 
-<!-- For any visual change, include before/after screenshots (desktop and mobile if relevant). -->
+<!-- For any visual change, include before/after screenshots (desktop, tablet, and mobile if relevant). -->
 
 ## Checklist
 
 - [ ] `npm run lint` passes
+- [ ] `npm test` passes
 - [ ] `npm run build` succeeds
-- [ ] I checked the change on desktop and mobile widths (if visual)
-- [ ] Content changes were made in `src/data/portfolio.json`, not hardcoded
-- [ ] I updated the relevant docs in `.claude/skills/portfolio-dev/` (if structural)
-- [ ] I considered the version bump per `versioning.md` (or noted it for the maintainer)
+- [ ] I checked the change on desktop, tablet, and mobile widths (if visual)
+- [ ] Content changes were made in `src/data/*.json`, not hardcoded
+- [ ] I updated the relevant docs in `docs/` (if structural) and logged the
+      change in `docs/decisions.md` (if non-trivial)
+- [ ] I considered the version bump in `package.json` per semver (or noted it
+      for the maintainer)
