@@ -82,7 +82,7 @@ public/
   favicon.svg
   robots.txt
   media/                      hero_image.webp, hero_video.mp4, profile_photo.jpg,
-                              og_image.jpg, project images, later theme videos
+                              og_image_v2.jpg, project images, later theme videos
 src/
   app/
     layout.tsx                fonts, metadata, providers, chrome
@@ -154,7 +154,7 @@ export interface SiteMeta {
   email: string;
   ogTitle: string;
   ogDescription: string;
-  ogImage: string;            // "/media/og_image.jpg"
+  ogImage: string;            // "/media/og_image_v2.jpg"
   socials: Social[];          // no Twitter/X
   nav: { label: string; href: string }[];
   mail: {                     // prefilled contact compose

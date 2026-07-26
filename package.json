@@ -1,6 +1,6 @@
 {
   "name": "withrvr-portfolio-v2",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "type": "module",
   "description": "Personal portfolio of Raghav Rathi (RVR), Backend Software Engineer. Next.js static export, frontend only.",

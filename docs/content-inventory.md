@@ -102,7 +102,7 @@ django_projects, learn_python, other, testing). All under github.com/withrvr:
 - hero_image.webp (68KB): hero poster placeholder.
 - hero_video.mp4 (2.5MB): hero play-reel placeholder.
 - profile_photo.jpg (22.5KB): about photo.
-- og_image.jpg (71KB): social preview, reusable.
+- og_image_v2.jpg (71KB): social preview, reusable.
 - 1link_1/2/3.jpeg, typerush.png: project images.
 - favicon.svg, 404.html, robots.txt, sitemap.xml.
 
