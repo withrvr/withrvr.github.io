@@ -14,7 +14,7 @@ describe("Footer", () => {
   it("shows the brand and the injected build version", () => {
     const { container } = render(<Footer />);
     expect(container.textContent).toContain("RVR");
-    expect(container.textContent).toContain("v2.0.1");
+    expect(container.textContent).toContain("v2.0.2");
   });
 
   it("has no Twitter or X links", () => {
