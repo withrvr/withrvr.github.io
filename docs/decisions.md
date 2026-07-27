@@ -555,3 +555,53 @@ is currently no caption track. Also note both `hero_video.mp4` (1280x720) and
 roughly 304x460 (2:3 portrait), so `object-cover` currently discards about 63%
 of each frame's width. Raghav has decided to keep 16:9 for now because the
 asset is also used outside this site.
+
+## D29. Performance pass: devicons-react removal and image re-encoding, RESOLVED 2026-07-27
+
+A Lighthouse mobile audit reported Performance 35-42/100 and LCP 23-27s. Root
+cause, diagnosed rather than guessed at:
+
+- `devicons-react`'s entry module (`lib/index.js`) does an unconditional
+  CommonJS `require()` of all ~3,700 icons it ships. The app used exactly one
+  of them (the AWS wordmark in Skills), but bundlers cannot tree-shake
+  eagerly-executed `require()` calls, so that single import pulled the whole
+  icon set into the client bundle as a single 9.4MB JS chunk. Under
+  Lighthouse's mobile CPU throttling, parsing and executing that chunk
+  delayed hydration, which gates the hero content's Framer Motion opacity-in
+  animation (`initial={{ opacity: 0 }}`), directly delaying LCP: an element
+  at opacity 0 does not count as painted.
+- Separately, `hero_image.webp` (the `priority`-loaded hero poster, and the
+  actual LCP resource) was raw PNG data mislabeled with a `.webp` extension:
+  1672x941px, 1.5MB, despite rendering at a max of about 380 CSS px wide.
+
+Fix: replaced the sole `devicons-react` usage with a hand-inlined SVG
+component (`AwsIcon` in `Icon.tsx`) using the same path data (pixel-identical
+output), and dropped the dependency. Re-encoded `hero_image.webp` as true
+WebP at 1200px wide, quality 82 (1.5MB to 46KB; same crop via `object-cover`,
+no visual change). `og_image_v2.jpg` had the identical mislabeled-PNG bug
+(same source photo, only ever fetched by social-media crawlers, never by the
+page itself) and was fixed alongside it (1.5MB to 63KB real JPEG).
+
+Result, local Lighthouse mobile with simulated throttling (same methodology
+as the reported baseline): Performance 35-42 to 84. LCP 23-27s to 4.0s. TBT
+1.4-3.1s to 207ms. Speed Index 6-12.4s to 1.7s. Total page weight 5.05MB to
+496KB. Accessibility, Best Practices, and SEO unchanged at 100/100/100. No
+component, layout, animation, or copy changed.
+
+Not fixed, flagged rather than silently patched: the remaining LCP headroom
+(4.0s versus the under-2.5s target) now traces to a different element on
+typical mobile viewports (412x823), the About-section portrait photo, gated
+by its existing `whileInView` fade-in (a deliberate scroll-reveal feature,
+left untouched). Closing that gap further would mean cutting aggregate
+main-thread JS work at hydration, for example migrating Framer Motion's
+`motion` usage to its `LazyMotion`/`m` pattern, or deferring hydration of
+below-fold sections. Both are mechanical but touch 10+ files each with many
+call sites; left for a dedicated follow-up rather than a blind refactor with
+no room here for the interaction-level regression testing it would need.
+
+Version bumped to 2.0.2 (`package.json`, `version.ts` fallback) to mark this
+release.
+
+Gates after this round: lint 0, `npm test` 22 passing, `npm run build` 0.
+Verified visually (mobile 390px and desktop 1440px screenshots of Hero and
+the Skills section's AWS icon) with no visible change from before the pass.

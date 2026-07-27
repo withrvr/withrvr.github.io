@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
-import { AmazonwebservicesOriginalWordmark } from "devicons-react";
+import { AwsIcon } from "@/components/ui/Icon";
 import {
   SiDjango,
   SiPython,
@@ -83,7 +83,7 @@ function AwsMark({ hovered }: { hovered: boolean }) {
         hovered ? "opacity-100 grayscale-0" : "opacity-55 grayscale"
       }`}
     >
-      <AmazonwebservicesOriginalWordmark size={18} />
+      <AwsIcon size={18} />
     </span>
   );
 }
