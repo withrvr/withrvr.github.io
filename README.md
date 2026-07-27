@@ -15,7 +15,7 @@ export, so it runs on Vercel or GitHub Pages with no server.
 | UI | React 19, TypeScript (strict) |
 | Styling | Tailwind CSS v4 (CSS-first tokens), dark and light themes |
 | Animation | Framer Motion (the `motion` package) |
-| Icons | lucide-react, simple-icons, devicons-react |
+| Icons | lucide-react, simple-icons |
 | Tests | Vitest, Testing Library, jsdom |
 
 ## Getting started

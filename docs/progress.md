@@ -177,3 +177,17 @@ Updated as work moves.
   reject, which was the main risk of unmuting). Built `out/index.html`
   emits `<video playsInline preload="metadata">` with no `muted`/`autoplay`.
   Gates green, 22 tests.
+- 2026-07-27: Performance pass (decisions D29), no visual or feature change.
+  Diagnosed a Lighthouse mobile Performance score of 35-42/100 and 23-27s LCP
+  to two root causes: `devicons-react` shipping a 9.4MB JS chunk for one used
+  icon (its entry module unconditionally `require()`s all ~3,700 icons it
+  bundles, which no bundler can tree-shake), and the hero poster
+  (`hero_image.webp`, the LCP resource) actually being raw PNG data
+  mislabeled with a `.webp` extension at 1672x941/1.5MB. Removed
+  `devicons-react` (replaced its one usage with a hand-inlined SVG); re-encoded
+  the hero image as true WebP at 1200px (1.5MB to 46KB) and fixed the
+  identical bug in the OG image (1.5MB to 63KB). Local Lighthouse mobile:
+  Performance 35-42 to 84, LCP 23-27s to 4.0s, TBT 1.4-3.1s to 207ms, Speed
+  Index 6-12.4s to 1.7s, page weight 5.05MB to 496KB. Accessibility, Best
+  Practices, SEO unchanged at 100/100/100. Version bumped to 2.0.2. Gates
+  green, 22 tests.
