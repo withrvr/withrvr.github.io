@@ -147,7 +147,16 @@ function ProjectRow({
           toggle();
         }
       }}
-      className={`group flex h-full cursor-pointer flex-col rounded-2xl border bg-card p-5 transition-colors duration-300 sm:p-6 md:p-7 ${
+      className={`group flex cursor-pointer flex-col rounded-2xl border bg-card p-5 transition-colors duration-300 sm:p-6 md:p-7 ${
+        // The grid row stretches every item to match its tallest sibling by
+        // default, which is right when both cards in a row are open (so a
+        // shorter one's links row still lines up at the bottom) but wrong
+        // when this card is closed next to an open sibling: it would then
+        // get stretched into a tall card with a big empty box below its tags.
+        // self-start opts a closed card out of that stretch so it sizes to
+        // its own compact content instead.
+        open ? "h-full" : "h-auto self-start"
+      } ${
         open
           ? "border-primary/60 shadow-[0_0_24px_rgba(27,107,92,0.12)]"
           : "border-border hover:border-primary/40"
