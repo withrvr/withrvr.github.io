@@ -191,18 +191,28 @@ Updated as work moves.
   Index 6-12.4s to 1.7s, page weight 5.05MB to 496KB. Accessibility, Best
   Practices, SEO unchanged at 100/100/100. Version bumped to 2.0.2. Gates
   green, 22 tests.
-- 2026-07-29: Issue #2 bug batch (decisions D30). Fixed the hero video
-  showing a rectangle on play on macOS Chrome/Safari (a promoted compositing
-  layer ignoring the wrapper's clip; radius moved onto the `<video>` itself),
-  the play-button pulse snapping back each cycle instead of breathing
-  (`repeatType: "mirror"` instead of the default `"loop"`), and added a
-  full-screen image lightbox for project screenshots
-  (`yet-another-react-lightbox` + Zoom plugin, approved dependency, lazy
-  loaded). Also fixed a deeper keyboard-accessibility bug found while
-  building the lightbox: a project card's own Enter/Space handler was
-  intercepting bubbled keydowns from nested controls (image thumbnails, the
-  existing GitHub/crates.io links) and closing the card instead of letting
-  them activate. Project card open/close and "show more/fewer" scroll
-  stability were re-verified and found already correct from D27; no change
-  needed there. Version bumped to 2.0.3. Added `CHANGELOG.md`. Gates green,
-  22 tests.
+- 2026-07-29: Issue #2 bug batch, in rounds (decisions D30). Fixed the hero
+  video showing a rectangle on play on macOS Chrome/Safari (a promoted
+  compositing layer ignoring the wrapper's clip; radius moved onto the
+  `<video>` itself) and added a full-screen image lightbox for project
+  screenshots (`yet-another-react-lightbox` + Zoom plugin, approved
+  dependency, lazy loaded). Also fixed a deeper keyboard-accessibility bug
+  found while building the lightbox: a project card's own Enter/Space
+  handler was intercepting bubbled keydowns from nested controls (image
+  thumbnails, the existing GitHub/crates.io links) and closing the card
+  instead of letting them activate. Follow-up rounds, from screenshots and
+  further feedback: fixed a closed card getting stretched into a tall card
+  with an empty box below its tags when a sibling was open (`self-start`
+  opts a closed card out of the grid's row stretch); fixed the custom
+  cursor being invisible whenever the lightbox was open (it shared a
+  z-index with the lightbox portal, and the site's `cursor: none` rule also
+  blocked the library's own zoom/grab cursor); fixed "show more/fewer
+  projects" visibly scrolling the page (the site's global
+  `scroll-behavior: smooth` made the scroll compensation animate instead
+  of snap, switched to `behavior: "instant"`); and corrected the play-button
+  pulse fix twice; first to `repeatType: "mirror"` (fixed the jank but was
+  the wrong shape, a reverse breathe instead of a one-directional ping),
+  then back to `"loop"` with an explicit invisible dwell before each reset
+  (the real fix for the jank, matching Tailwind's own `animate-ping`
+  pattern). Version bumped to 2.0.3. Added `CHANGELOG.md`. Gates green,
+  22 tests throughout.

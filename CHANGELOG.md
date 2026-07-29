@@ -15,10 +15,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   `border-radius` and `overflow: hidden` clip. The same radius is now applied
   directly to the `<video>` element so its own layer clips itself. (#2)
 - Landing-page play-button pulse animation snapping back to its start frame
-  every cycle instead of breathing smoothly in and out. The pulse's
-  `transition.repeatType` was the Motion default (`"loop"`, restart from the
-  first keyframe); changed to `"mirror"` so it reverses smoothly, and it's
-  now skipped entirely under `prefers-reduced-motion`. (#2)
+  every cycle instead of looping cleanly. The pulse is a one-directional
+  radar ping (center to out, `repeatType: "loop"`); it only ever needed the
+  reset itself to be invisible, since scale and opacity previously reached
+  their fully faded-out end values for a single mathematical instant before
+  snapping back, giving the renderer no buffer of clearly invisible frames
+  around the reset. Added an explicit dwell (both values now hold at their
+  end state for the last 40% of each cycle, matching Tailwind's own
+  `animate-ping` keyframe pattern), and it's skipped entirely under
+  `prefers-reduced-motion`. (#2)
 - Image viewer for project screenshots. Clicking a project image previously
   did nothing; added a full-screen, zoomable lightbox
   (`yet-another-react-lightbox` with its Zoom plugin) with keyboard

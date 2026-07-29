@@ -619,14 +619,14 @@ re-verified, and one deeper bug found while building the fourth fix.
   showed it. Fixed by applying the same `rounded-t-[999px] rounded-b-3xl` to
   the `<video>` element itself (`HeroMedia.tsx`), so its own layer clips its
   own corners regardless of ancestor clipping.
-- Play-button pulse animation snapping back to frame 1 every cycle. The glow
-  ring animates keyframes `scale: [1, 1.7]` with `repeat: Infinity` and
-  Motion's default `repeatType: "loop"`, which restarts from the first
-  keyframe instead of reversing. Changed to `repeatType: "mirror"` (reverses
-  both value and easing, for a symmetric turnaround) and skipped entirely
-  under `useReducedMotion()`. Verified by sampling the ring's computed
-  `transform`/`opacity` every 150ms through a full cycle: scale rose to
-  ~1.70 then descended smoothly (1.70, 1.64, 1.55, 1.47, ...) with no jump.
+- Play-button pulse animation snapping back to frame 1 every cycle, first
+  pass: changed `repeatType` from Motion's default `"loop"` to `"mirror"`
+  (reverses both value and easing for a symmetric turnaround) and skipped
+  it entirely under `useReducedMotion()`. This fixed the visible jank but,
+  per follow-up feedback, was the wrong shape: `"mirror"` makes the ring
+  breathe in and out (a reverse ping-pong), when the intent was a
+  one-directional radar ping (center to out, repeating in one direction
+  only, `"loop"` not `"mirror"`) — see below for the corrected fix.
 - "Show more/fewer" scroll stability, first pass: re-verified D27's
   `ResizeObserver` + `scrollBy` compensation with instrumented Playwright
   measurements (native DOM `.click()`, not Playwright's own
@@ -696,6 +696,23 @@ re-verified, and one deeper bug found while building the fourth fix.
   its final value within one sample (no animated in-between values), and
   collapse held steady through the ~300ms exit-fade delay then likewise
   snapped in a single step.
+- Follow-up correction to the play-button pulse (see above): reverted
+  `repeatType` to `"loop"`, and root-caused the actual jank instead of
+  papering over it with a shape change. The reset itself was never the
+  problem to design around; scale and opacity only reached their fully
+  faded-out end values (`1.7`, `0`) for a single mathematical instant
+  before the loop restarted, so the renderer had no real buffer of clearly
+  invisible frames around the reset and could catch it mid-transition.
+  Added an explicit dwell via a `times: [0, 0.6, 1]` array: both values now
+  hold constant at their end state for the last 40% of the 1.8s cycle,
+  matching Tailwind's own `animate-ping` keyframe pattern (a `75%, 100%`
+  hold at the faded-out state). Verified by sampling scale/opacity at 60ms
+  resolution across two full cycles: both move in one direction only (no
+  reversal) each cycle, opacity reaches 0 at ~480ms while scale doesn't
+  finish expanding to 1.7 until ~780ms (opacity ahead of scale, not
+  behind), and there's a genuine ~540ms stretch (9 consecutive samples)
+  where both sit fully invisible before every reset. Confirmed no
+  regression to hero video playback or the Bug 1 macOS clipping fix.
 
 Version bumped to 2.0.3 (`package.json`, `version.ts` fallback), a patch
 release per `CONTRIBUTING.md`'s versioning rule (bug fixes, no new features
