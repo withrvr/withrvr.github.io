@@ -42,7 +42,7 @@ export default function HeroMedia({ poster, video, alt }: HeroMediaProps) {
   };
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-t-[999px] rounded-b-3xl bg-card">
+    <div className="relative isolate h-full w-full overflow-hidden rounded-t-[999px] rounded-b-3xl bg-card">
       <Image
         src={poster}
         alt={alt}
@@ -53,13 +53,20 @@ export default function HeroMedia({ poster, video, alt }: HeroMediaProps) {
           isPlaying ? "opacity-0" : "opacity-100"
         }`}
       />
+      {/* macOS Chrome/WebKit promotes <video> to its own hardware-decode
+          compositing layer once it starts playing, and that layer ignores the
+          wrapper's border-radius + overflow-hidden clip, painting as a plain
+          rectangle over the pill shape. Windows and mobile don't hit this
+          because they don't promote the layer the same way. Putting the same
+          radius directly on the video element clips its own layer instead of
+          relying on the ancestor's clip. */}
       <video
         ref={videoRef}
         playsInline
         preload="metadata"
         poster={poster}
         onEnded={() => setIsPlaying(false)}
-        className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${
+        className={`absolute inset-0 h-full w-full rounded-t-[999px] rounded-b-3xl object-cover object-center transition-opacity duration-700 ${
           isPlaying ? "opacity-100" : "opacity-0"
         }`}
       >
