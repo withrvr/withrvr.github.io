@@ -8,6 +8,7 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Chip from "@/components/ui/Chip";
 import { BrandIcon } from "@/components/ui/Icon";
+import ProjectLightbox from "@/components/ui/ProjectLightbox";
 import { projects as projectsContent } from "@/lib/content";
 import type { Project, ProjectStatus } from "@/lib/types";
 
@@ -47,15 +48,27 @@ function StatusBadge({ status, label }: { status: ProjectStatus; label: string }
   );
 }
 
-function ProjectImages({ project }: { project: Project }) {
+function ProjectImages({
+  project,
+  onOpen,
+}: {
+  project: Project;
+  onOpen: (index: number, trigger: HTMLElement) => void;
+}) {
   if (project.imageLayout === "none" || project.images.length === 0) return null;
 
   if (project.imageLayout === "phones") {
     return (
       <div className="flex flex-wrap gap-4">
         {project.images.map((src, i) => (
-          <div
+          <button
             key={src}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpen(i, e.currentTarget);
+            }}
+            aria-label={`Open ${project.name} screenshot ${i + 1} full screen`}
             className="group/thumb relative aspect-[9/19] w-24 overflow-hidden rounded-xl border border-border bg-background transition-colors duration-300 hover:border-primary/40 sm:w-28"
           >
             <Image
@@ -65,14 +78,22 @@ function ProjectImages({ project }: { project: Project }) {
               sizes="112px"
               className="object-cover transition-transform duration-500 group-hover/thumb:scale-110"
             />
-          </div>
+          </button>
         ))}
       </div>
     );
   }
 
   return (
-    <div className="group/thumb relative aspect-video w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-background transition-colors duration-300 hover:border-primary/40">
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onOpen(0, e.currentTarget);
+      }}
+      aria-label={`Open ${project.name} screenshot full screen`}
+      className="group/thumb relative aspect-video w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-background transition-colors duration-300 hover:border-primary/40"
+    >
       <Image
         src={project.images[0]}
         alt={`${project.name} screenshot`}
@@ -80,7 +101,7 @@ function ProjectImages({ project }: { project: Project }) {
         sizes="(max-width: 768px) 100vw, 672px"
         className="object-cover transition-transform duration-500 group-hover/thumb:scale-110"
       />
-    </div>
+    </button>
   );
 }
 
@@ -91,10 +112,12 @@ function ProjectRow({
   project,
   index,
   defaultOpen = false,
+  onOpenLightbox,
 }: {
   project: Project;
   index: number;
   defaultOpen?: boolean;
+  onOpenLightbox: (project: Project, startIndex: number, trigger: HTMLElement) => void;
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const number = String(index + 1).padStart(2, "0");
@@ -191,7 +214,10 @@ function ProjectRow({
                   </li>
                 ))}
               </ul>
-              <ProjectImages project={project} />
+              <ProjectImages
+                project={project}
+                onOpen={(startIndex, trigger) => onOpenLightbox(project, startIndex, trigger)}
+              />
               {project.links.length > 0 && (
                 <div className="mt-auto flex flex-wrap gap-3 pt-2">
                   {project.links.map((link) => (
@@ -221,6 +247,25 @@ export default function Projects() {
   const [showAll, setShowAll] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const [lightboxProject, setLightboxProject] = useState<Project | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const lightboxTrigger = useRef<HTMLElement | null>(null);
+
+  const openLightbox = (project: Project, startIndex: number, trigger: HTMLElement) => {
+    lightboxTrigger.current = trigger;
+    setLightboxProject(project);
+    setLightboxIndex(startIndex);
+  };
+
+  // yet-another-react-lightbox restores focus to whatever opened it via
+  // FocusEvent.relatedTarget, which browsers only populate for a real mouse
+  // click, not a keyboard Tab-then-Enter. Focusing the trigger button
+  // ourselves on close covers that gap without fighting the library's own
+  // (working, for mouse) restore.
+  const closeLightbox = () => {
+    setLightboxProject(null);
+    lightboxTrigger.current?.focus();
+  };
 
   // Toggling inserts/removes a whole row of cards above this button, which
   // shifts everything below it on the page. Compensate by scrolling the
@@ -272,12 +317,23 @@ export default function Projects() {
 
         <div ref={gridRef} className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 md:gap-6">
           {featuredProjects.map(({ project, index }) => (
-            <ProjectRow key={project.id} project={project} index={index} defaultOpen />
+            <ProjectRow
+              key={project.id}
+              project={project}
+              index={index}
+              defaultOpen
+              onOpenLightbox={openLightbox}
+            />
           ))}
           <AnimatePresence initial={false}>
             {showAll &&
               restProjects.map(({ project, index }) => (
-                <ProjectRow key={project.id} project={project} index={index} />
+                <ProjectRow
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onOpenLightbox={openLightbox}
+                />
               ))}
           </AnimatePresence>
         </div>
@@ -306,6 +362,23 @@ export default function Projects() {
           </a>
         </div>
       </div>
+
+      <ProjectLightbox
+        open={lightboxProject !== null}
+        index={lightboxIndex}
+        onClose={closeLightbox}
+        slides={
+          lightboxProject
+            ? lightboxProject.images.map((src, i) => ({
+                src,
+                alt:
+                  lightboxProject.imageLayout === "phones"
+                    ? `${lightboxProject.name} screenshot ${i + 1}`
+                    : `${lightboxProject.name} screenshot`,
+              }))
+            : []
+        }
+      />
     </SectionWrapper>
   );
 }
