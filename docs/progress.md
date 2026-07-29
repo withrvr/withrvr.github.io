@@ -191,3 +191,18 @@ Updated as work moves.
   Index 6-12.4s to 1.7s, page weight 5.05MB to 496KB. Accessibility, Best
   Practices, SEO unchanged at 100/100/100. Version bumped to 2.0.2. Gates
   green, 22 tests.
+- 2026-07-29: Issue #2 bug batch (decisions D30). Fixed the hero video
+  showing a rectangle on play on macOS Chrome/Safari (a promoted compositing
+  layer ignoring the wrapper's clip; radius moved onto the `<video>` itself),
+  the play-button pulse snapping back each cycle instead of breathing
+  (`repeatType: "mirror"` instead of the default `"loop"`), and added a
+  full-screen image lightbox for project screenshots
+  (`yet-another-react-lightbox` + Zoom plugin, approved dependency, lazy
+  loaded). Also fixed a deeper keyboard-accessibility bug found while
+  building the lightbox: a project card's own Enter/Space handler was
+  intercepting bubbled keydowns from nested controls (image thumbnails, the
+  existing GitHub/crates.io links) and closing the card instead of letting
+  them activate. Project card open/close and "show more/fewer" scroll
+  stability were re-verified and found already correct from D27; no change
+  needed there. Version bumped to 2.0.3. Added `CHANGELOG.md`. Gates green,
+  22 tests.

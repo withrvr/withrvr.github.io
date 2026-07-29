@@ -605,3 +605,69 @@ release.
 Gates after this round: lint 0, `npm test` 22 passing, `npm run build` 0.
 Verified visually (mobile 390px and desktop 1440px screenshots of Hero and
 the Skills section's AWS icon) with no visible change from before the pass.
+
+## D30. Issue #2 bug batch (hero video, play-button pulse, lightbox, keyboard), RESOLVED 2026-07-29
+
+Four real bugs from a Chrome-on-macOS bug report, one already-fixed pair
+re-verified, and one deeper bug found while building the fourth fix.
+
+- Hero video rectangle on play, macOS Chrome/Safari only. Root cause: a
+  playing `<video>` gets promoted to its own hardware-decode compositing
+  layer on macOS, and that layer ignores the wrapper's `border-radius` +
+  `overflow: hidden` clip, painting as a plain rectangle over the pill shape.
+  Windows and mobile don't promote the layer the same way, so they never
+  showed it. Fixed by applying the same `rounded-t-[999px] rounded-b-3xl` to
+  the `<video>` element itself (`HeroMedia.tsx`), so its own layer clips its
+  own corners regardless of ancestor clipping.
+- Play-button pulse animation snapping back to frame 1 every cycle. The glow
+  ring animates keyframes `scale: [1, 1.7]` with `repeat: Infinity` and
+  Motion's default `repeatType: "loop"`, which restarts from the first
+  keyframe instead of reversing. Changed to `repeatType: "mirror"` (reverses
+  both value and easing, for a symmetric turnaround) and skipped entirely
+  under `useReducedMotion()`. Verified by sampling the ring's computed
+  `transform`/`opacity` every 150ms through a full cycle: scale rose to
+  ~1.70 then descended smoothly (1.70, 1.64, 1.55, 1.47, ...) with no jump.
+- Project card open/close and "show more/fewer" scroll stability: both
+  already fixed correctly in [D27](#d27-loader-bug-projects-bugs-and-a-second-hover-pass-resolved-2026-07-25),
+  before v2.0.2 shipped. Re-verified with instrumented Playwright
+  measurements (native DOM `.click()`, not Playwright's own
+  click-and-scroll-into-view helper, which was a red herring on the first
+  pass and produced a false ~578px "overshoot" that traced to Playwright's
+  own actionability behavior, not the app): toggle button position moves
+  under 1px on both expand and collapse, individual card open/close moves it
+  0px. No code change; the #2 report predates D27 reaching a release.
+- Image lightbox for project screenshots: previously clicking an image did
+  nothing. Added `yet-another-react-lightbox` (Raghav approved; ~360KB
+  unpacked, loaded via `next/dynamic` so it's not in the initial bundle) with
+  its Zoom plugin, in a new `ProjectLightbox.tsx` mounted once at the
+  `Projects` section level (not per-card) and driven by lifted state so only
+  one instance ever exists. The library handles Esc/backdrop close,
+  arrow-key nav, swipe/pinch-zoom, and scroll lock on its own; two gaps
+  needed covering explicitly: it doesn't hide prev/next arrows for a
+  single-image project (suppressed via its `render.buttonPrev/buttonNext`
+  slots when `slides.length <= 1`), and its focus-restore-on-close relies on
+  the browser populating `FocusEvent.relatedTarget`, which only happens for
+  a real mouse click, not a keyboard Tab-then-Enter open; `Projects.tsx` now
+  also stores the triggering button and focuses it explicitly on close.
+- Found while building the lightbox, not part of the original report: Enter
+  on any nested control inside an open card (an image thumbnail, or the
+  pre-existing GitHub/crates.io links) didn't activate it. `ProjectRow`'s
+  card-level `onKeyDown` (added for the card's own Enter/Space-to-toggle
+  keyboard support) fired on every bubbled keydown regardless of source,
+  calling `preventDefault()` and closing the very card the nested control
+  lives in. This silently broke keyboard activation of the existing links
+  too, not just the new lightbox trigger. Fixed by checking
+  `e.target === e.currentTarget` before toggling.
+
+Version bumped to 2.0.3 (`package.json`, `version.ts` fallback), a patch
+release per `CONTRIBUTING.md`'s versioning rule (bug fixes, no new features
+or breaking changes). Added `CHANGELOG.md` (Keep a Changelog format; didn't
+exist before this round).
+
+Gates after this round: lint 0, `npm test` 22 passing (updated the footer
+version-string assertion to v2.0.3), `npm run build` 0, `tsc --noEmit` 0.
+Verified with Playwright (Chromium) at 375/768/1440px in both themes: hero
+playback and pulse, card open/close, "show more/fewer", lightbox open/nav/
+close/keyboard/mouse paths, and focus restore. Not verified: real macOS
+Chrome/Safari playback (the original bug's actual environment), and touch
+swipe/pinch-zoom gestures (no touch-capable device in this environment).
