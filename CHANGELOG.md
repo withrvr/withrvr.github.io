@@ -30,13 +30,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   `onKeyDown` handler fired on every bubbled Enter/Space keypress and closed
   the card instead of letting the nested control handle it. Now only handles
   the keypress when the card itself is the event target. (#2)
+- A closed project card sitting next to an open sibling got stretched by the
+  grid's default row-height matching into a tall card with a big empty box
+  below its tags. `self-start` now opts a closed card out of that stretch so
+  it sizes to its own compact content; two open cards in the same row still
+  stretch to match each other as intended. (#2)
+- The custom site cursor (and the lightbox's own zoom/grab cursor) were both
+  invisible while the image lightbox was open: the cursor and the lightbox's
+  portal share the same z-index, so the portal (mounted later) painted over
+  it, and the site's `cursor: none` rule also suppressed the library's own
+  cursor styling inside the portal. The custom cursor now fully steps aside
+  while the lightbox is open. (#2)
 
 ### Verified, no change needed
 
-- Project card open/close and the "show more/fewer projects" toggle were
-  already fixed in the prior [D27](docs/decisions.md#d27) round: equal row
-  heights when cards are open, and a `ResizeObserver`-driven scroll
-  compensation that keeps the toggle button visually pinned. Re-verified with
-  instrumented Playwright measurements (sub-pixel scroll deltas on both open
-  and close) as part of this batch; the original report (#2) predates that
-  fix reaching a release.
+- The "show more/fewer projects" toggle keeping its on-screen position
+  stable was already fixed in the prior [D27](docs/decisions.md#d27) round: a
+  `ResizeObserver`-driven scroll compensation. Re-verified with instrumented
+  Playwright measurements (sub-pixel scroll deltas on both open and
+  collapse).

@@ -627,15 +627,15 @@ re-verified, and one deeper bug found while building the fourth fix.
   under `useReducedMotion()`. Verified by sampling the ring's computed
   `transform`/`opacity` every 150ms through a full cycle: scale rose to
   ~1.70 then descended smoothly (1.70, 1.64, 1.55, 1.47, ...) with no jump.
-- Project card open/close and "show more/fewer" scroll stability: both
-  already fixed correctly in [D27](#d27-loader-bug-projects-bugs-and-a-second-hover-pass-resolved-2026-07-25),
+- "Show more/fewer" scroll stability: already fixed correctly in
+  [D27](#d27-loader-bug-projects-bugs-and-a-second-hover-pass-resolved-2026-07-25),
   before v2.0.2 shipped. Re-verified with instrumented Playwright
   measurements (native DOM `.click()`, not Playwright's own
   click-and-scroll-into-view helper, which was a red herring on the first
   pass and produced a false ~578px "overshoot" that traced to Playwright's
   own actionability behavior, not the app): toggle button position moves
-  under 1px on both expand and collapse, individual card open/close moves it
-  0px. No code change; the #2 report predates D27 reaching a release.
+  under 1px on both expand and collapse. No code change; the #2 report
+  predates D27 reaching a release.
 - Image lightbox for project screenshots: previously clicking an image did
   nothing. Added `yet-another-react-lightbox` (Raghav approved; ~360KB
   unpacked, loaded via `next/dynamic` so it's not in the initial bundle) with
@@ -658,6 +658,26 @@ re-verified, and one deeper bug found while building the fourth fix.
   lives in. This silently broke keyboard activation of the existing links
   too, not just the new lightbox trigger. Fixed by checking
   `e.target === e.currentTarget` before toggling.
+- Found after the first pass, from screenshots showing a closed card
+  (TypeRush, or "Prompt Navigator" once expanded) sitting next to an open
+  sibling: my initial read of D27's row-height fix was incomplete. D27's
+  `items-stretch` (removed `items-start`) correctly equalizes two OPEN
+  cards' heights, but it also stretches a CLOSED card to match an open
+  sibling, producing exactly the empty-box-below-the-tags symptom in the
+  screenshots; my first verification pass only measured the "both open" and
+  "both closed" cases (which happen to look identical either way) and never
+  the mixed case. Fixed with `self-start` on a closed card so it opts out
+  of the row stretch and sizes to its own compact content, while leaving
+  the "both open" stretch behavior untouched.
+- Also found from the screenshots: the custom cursor (and the lightbox's
+  own zoom/grab cursor) were invisible whenever the lightbox was open. Both
+  the cursor ring and the lightbox portal use `z-index: 9999`; the portal,
+  mounted later in the DOM, painted over the ring, and the site's
+  `cursor: none` rule (how the custom cursor hides the native one) also
+  applies inside the portal, blocking the library's own cursor styling.
+  `ProjectLightbox` now dispatches a small window event on open/close, and
+  `Cursor.tsx` fully steps aside for the duration instead of fighting for
+  z-index space.
 
 Version bumped to 2.0.3 (`package.json`, `version.ts` fallback), a patch
 release per `CONTRIBUTING.md`'s versioning rule (bug fixes, no new features
