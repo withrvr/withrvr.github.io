@@ -113,6 +113,12 @@ function ProjectRow({
       aria-expanded={open}
       aria-label={`${project.name}, ${open ? "collapse" : "expand"} details`}
       onKeyDown={(e) => {
+        // Only toggle for a keypress on the card itself. Without this check,
+        // Enter/Space bubbles up from any nested control (an image thumbnail,
+        // a GitHub/crates.io link) and this handler fires too, calling
+        // preventDefault and closing the very card the user is trying to
+        // keyboard-activate a control inside of.
+        if (e.target !== e.currentTarget) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           toggle();
