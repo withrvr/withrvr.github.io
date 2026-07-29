@@ -8,6 +8,7 @@ import SectionWrapper from "@/components/ui/SectionWrapper";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Chip from "@/components/ui/Chip";
 import { BrandIcon } from "@/components/ui/Icon";
+import ProjectLightbox from "@/components/ui/ProjectLightbox";
 import { projects as projectsContent } from "@/lib/content";
 import type { Project, ProjectStatus } from "@/lib/types";
 
@@ -47,15 +48,27 @@ function StatusBadge({ status, label }: { status: ProjectStatus; label: string }
   );
 }
 
-function ProjectImages({ project }: { project: Project }) {
+function ProjectImages({
+  project,
+  onOpen,
+}: {
+  project: Project;
+  onOpen: (index: number, trigger: HTMLElement) => void;
+}) {
   if (project.imageLayout === "none" || project.images.length === 0) return null;
 
   if (project.imageLayout === "phones") {
     return (
       <div className="flex flex-wrap gap-4">
         {project.images.map((src, i) => (
-          <div
+          <button
             key={src}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpen(i, e.currentTarget);
+            }}
+            aria-label={`Open ${project.name} screenshot ${i + 1} full screen`}
             className="group/thumb relative aspect-[9/19] w-24 overflow-hidden rounded-xl border border-border bg-background transition-colors duration-300 hover:border-primary/40 sm:w-28"
           >
             <Image
@@ -65,14 +78,22 @@ function ProjectImages({ project }: { project: Project }) {
               sizes="112px"
               className="object-cover transition-transform duration-500 group-hover/thumb:scale-110"
             />
-          </div>
+          </button>
         ))}
       </div>
     );
   }
 
   return (
-    <div className="group/thumb relative aspect-video w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-background transition-colors duration-300 hover:border-primary/40">
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onOpen(0, e.currentTarget);
+      }}
+      aria-label={`Open ${project.name} screenshot full screen`}
+      className="group/thumb relative aspect-video w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-background transition-colors duration-300 hover:border-primary/40"
+    >
       <Image
         src={project.images[0]}
         alt={`${project.name} screenshot`}
@@ -80,7 +101,7 @@ function ProjectImages({ project }: { project: Project }) {
         sizes="(max-width: 768px) 100vw, 672px"
         className="object-cover transition-transform duration-500 group-hover/thumb:scale-110"
       />
-    </div>
+    </button>
   );
 }
 
@@ -91,10 +112,12 @@ function ProjectRow({
   project,
   index,
   defaultOpen = false,
+  onOpenLightbox,
 }: {
   project: Project;
   index: number;
   defaultOpen?: boolean;
+  onOpenLightbox: (project: Project, startIndex: number, trigger: HTMLElement) => void;
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const number = String(index + 1).padStart(2, "0");
@@ -113,12 +136,27 @@ function ProjectRow({
       aria-expanded={open}
       aria-label={`${project.name}, ${open ? "collapse" : "expand"} details`}
       onKeyDown={(e) => {
+        // Only toggle for a keypress on the card itself. Without this check,
+        // Enter/Space bubbles up from any nested control (an image thumbnail,
+        // a GitHub/crates.io link) and this handler fires too, calling
+        // preventDefault and closing the very card the user is trying to
+        // keyboard-activate a control inside of.
+        if (e.target !== e.currentTarget) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           toggle();
         }
       }}
-      className={`group flex h-full cursor-pointer flex-col rounded-2xl border bg-card p-5 transition-colors duration-300 sm:p-6 md:p-7 ${
+      className={`group flex cursor-pointer flex-col rounded-2xl border bg-card p-5 transition-colors duration-300 sm:p-6 md:p-7 ${
+        // The grid row stretches every item to match its tallest sibling by
+        // default, which is right when both cards in a row are open (so a
+        // shorter one's links row still lines up at the bottom) but wrong
+        // when this card is closed next to an open sibling: it would then
+        // get stretched into a tall card with a big empty box below its tags.
+        // self-start opts a closed card out of that stretch so it sizes to
+        // its own compact content instead.
+        open ? "h-full" : "h-auto self-start"
+      } ${
         open
           ? "border-primary/60 shadow-[0_0_24px_rgba(27,107,92,0.12)]"
           : "border-border hover:border-primary/40"
@@ -185,7 +223,10 @@ function ProjectRow({
                   </li>
                 ))}
               </ul>
-              <ProjectImages project={project} />
+              <ProjectImages
+                project={project}
+                onOpen={(startIndex, trigger) => onOpenLightbox(project, startIndex, trigger)}
+              />
               {project.links.length > 0 && (
                 <div className="mt-auto flex flex-wrap gap-3 pt-2">
                   {project.links.map((link) => (
@@ -215,6 +256,25 @@ export default function Projects() {
   const [showAll, setShowAll] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const [lightboxProject, setLightboxProject] = useState<Project | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const lightboxTrigger = useRef<HTMLElement | null>(null);
+
+  const openLightbox = (project: Project, startIndex: number, trigger: HTMLElement) => {
+    lightboxTrigger.current = trigger;
+    setLightboxProject(project);
+    setLightboxIndex(startIndex);
+  };
+
+  // yet-another-react-lightbox restores focus to whatever opened it via
+  // FocusEvent.relatedTarget, which browsers only populate for a real mouse
+  // click, not a keyboard Tab-then-Enter. Focusing the trigger button
+  // ourselves on close covers that gap without fighting the library's own
+  // (working, for mouse) restore.
+  const closeLightbox = () => {
+    setLightboxProject(null);
+    lightboxTrigger.current?.focus();
+  };
 
   // Toggling inserts/removes a whole row of cards above this button, which
   // shifts everything below it on the page. Compensate by scrolling the
@@ -241,7 +301,16 @@ export default function Projects() {
       const newHeight = grid.getBoundingClientRect().height;
       const delta = newHeight - lastHeight;
       if (delta !== 0) {
-        window.scrollBy(0, delta);
+        // { behavior: "instant" } is required, not optional polish: globals.css
+        // sets scroll-behavior: smooth on <html> for every other scroll on the
+        // site, and the legacy two-argument scrollBy(x, y) form inherits that
+        // instead of snapping. Without this, each compensation animates over
+        // ~300-500ms, and when this fires more than once per toggle (see above),
+        // a new animation restarts mid-flight through the previous one, which
+        // reads as the page jumping/redirecting on its own instead of the
+        // button staying put. The end position was already correct either way,
+        // which is why measuring only before/after scrollY missed this.
+        window.scrollBy({ top: delta, left: 0, behavior: "instant" });
         lastHeight = newHeight;
       }
     });
@@ -266,12 +335,23 @@ export default function Projects() {
 
         <div ref={gridRef} className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 md:gap-6">
           {featuredProjects.map(({ project, index }) => (
-            <ProjectRow key={project.id} project={project} index={index} defaultOpen />
+            <ProjectRow
+              key={project.id}
+              project={project}
+              index={index}
+              defaultOpen
+              onOpenLightbox={openLightbox}
+            />
           ))}
           <AnimatePresence initial={false}>
             {showAll &&
               restProjects.map(({ project, index }) => (
-                <ProjectRow key={project.id} project={project} index={index} />
+                <ProjectRow
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onOpenLightbox={openLightbox}
+                />
               ))}
           </AnimatePresence>
         </div>
@@ -300,6 +380,23 @@ export default function Projects() {
           </a>
         </div>
       </div>
+
+      <ProjectLightbox
+        open={lightboxProject !== null}
+        index={lightboxIndex}
+        onClose={closeLightbox}
+        slides={
+          lightboxProject
+            ? lightboxProject.images.map((src, i) => ({
+                src,
+                alt:
+                  lightboxProject.imageLayout === "phones"
+                    ? `${lightboxProject.name} screenshot ${i + 1}`
+                    : `${lightboxProject.name} screenshot`,
+              }))
+            : []
+        }
+      />
     </SectionWrapper>
   );
 }

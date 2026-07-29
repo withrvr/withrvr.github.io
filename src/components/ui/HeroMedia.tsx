@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Play, Square } from "lucide-react";
 import MagneticButton from "@/components/ui/MagneticButton";
 
@@ -24,6 +24,7 @@ interface HeroMediaProps {
 export default function HeroMedia({ poster, video, alt }: HeroMediaProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const reduce = useReducedMotion();
 
   const toggle = () => {
     const el = videoRef.current;
@@ -42,7 +43,7 @@ export default function HeroMedia({ poster, video, alt }: HeroMediaProps) {
   };
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-t-[999px] rounded-b-3xl bg-card">
+    <div className="relative isolate h-full w-full overflow-hidden rounded-t-[999px] rounded-b-3xl bg-card">
       <Image
         src={poster}
         alt={alt}
@@ -53,28 +54,54 @@ export default function HeroMedia({ poster, video, alt }: HeroMediaProps) {
           isPlaying ? "opacity-0" : "opacity-100"
         }`}
       />
+      {/* macOS Chrome/WebKit promotes <video> to its own hardware-decode
+          compositing layer once it starts playing, and that layer ignores the
+          wrapper's border-radius + overflow-hidden clip, painting as a plain
+          rectangle over the pill shape. Windows and mobile don't hit this
+          because they don't promote the layer the same way. Putting the same
+          radius directly on the video element clips its own layer instead of
+          relying on the ancestor's clip. */}
       <video
         ref={videoRef}
         playsInline
         preload="metadata"
         poster={poster}
         onEnded={() => setIsPlaying(false)}
-        className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${
+        className={`absolute inset-0 h-full w-full rounded-t-[999px] rounded-b-3xl object-cover object-center transition-opacity duration-700 ${
           isPlaying ? "opacity-100" : "opacity-0"
         }`}
       >
         <source src={video} type="video/mp4" />
       </video>
 
-      {/* Play / Stop: icon only, fixed size and color, with a soft glow pulse.
-          Fixed size means toggling never shifts its position. */}
+      {/* Play / Stop: icon only, fixed size and color, with a soft radar-ping
+          pulse behind it. Fixed size means toggling never shifts its position.
+          The pulse is one-directional per cycle (center to out, never
+          reverse) and loops via repeatType "loop"; what used to make the loop
+          restart look like a stutter was that scale/opacity only reached
+          their faded-out end values for a single instant before snapping
+          back, so the browser could paint a frame where the ring was already
+          reappearing before it had ever been cleanly invisible. Holding scale
+          and opacity constant at their end values for the last 40% of each
+          cycle (the `1.7, 1.7` / `0, 0` repeats below, timed via `times`)
+          guarantees several fully-invisible frames before every reset, so the
+          restart lands on a frame with nothing to see, same as the very
+          first cycle on mount. Disabled under reduced motion. */}
       <div className="absolute bottom-3 right-3 flex">
-        <motion.span
-          aria-hidden="true"
-          className="absolute inset-0 rounded-full bg-primary"
-          animate={{ scale: [1, 1.7], opacity: [0.45, 0] }}
-          transition={{ repeat: Infinity, duration: 1.8, ease: "easeOut" }}
-        />
+        {!reduce && (
+          <motion.span
+            aria-hidden="true"
+            className="absolute inset-0 rounded-full bg-primary"
+            animate={{ scale: [1, 1.7, 1.7], opacity: [0.45, 0, 0] }}
+            transition={{
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 1.8,
+              times: [0, 0.6, 1],
+              ease: "easeOut",
+            }}
+          />
+        )}
         <MagneticButton strength={0.35}>
           <button
             type="button"

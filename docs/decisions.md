@@ -605,3 +605,124 @@ release.
 Gates after this round: lint 0, `npm test` 22 passing, `npm run build` 0.
 Verified visually (mobile 390px and desktop 1440px screenshots of Hero and
 the Skills section's AWS icon) with no visible change from before the pass.
+
+## D30. Issue #2 bug batch (hero video, play-button pulse, lightbox, keyboard), RESOLVED 2026-07-29
+
+Four real bugs from a Chrome-on-macOS bug report, one already-fixed pair
+re-verified, and one deeper bug found while building the fourth fix.
+
+- Hero video rectangle on play, macOS Chrome/Safari only. Root cause: a
+  playing `<video>` gets promoted to its own hardware-decode compositing
+  layer on macOS, and that layer ignores the wrapper's `border-radius` +
+  `overflow: hidden` clip, painting as a plain rectangle over the pill shape.
+  Windows and mobile don't promote the layer the same way, so they never
+  showed it. Fixed by applying the same `rounded-t-[999px] rounded-b-3xl` to
+  the `<video>` element itself (`HeroMedia.tsx`), so its own layer clips its
+  own corners regardless of ancestor clipping.
+- Play-button pulse animation snapping back to frame 1 every cycle, first
+  pass: changed `repeatType` from Motion's default `"loop"` to `"mirror"`
+  (reverses both value and easing for a symmetric turnaround) and skipped
+  it entirely under `useReducedMotion()`. This fixed the visible jank but,
+  per follow-up feedback, was the wrong shape: `"mirror"` makes the ring
+  breathe in and out (a reverse ping-pong), when the intent was a
+  one-directional radar ping (center to out, repeating in one direction
+  only, `"loop"` not `"mirror"`) — see below for the corrected fix.
+- "Show more/fewer" scroll stability, first pass: re-verified D27's
+  `ResizeObserver` + `scrollBy` compensation with instrumented Playwright
+  measurements (native DOM `.click()`, not Playwright's own
+  click-and-scroll-into-view helper, which was a red herring on the first
+  attempt and produced a false ~578px "overshoot" that traced to
+  Playwright's own actionability behavior, not the app): toggle button
+  position moved under 1px on both expand and collapse, so this was
+  initially logged as no change needed. That measured only the resting
+  position before and after, not the motion in between, and missed a real
+  bug (see below).
+- Image lightbox for project screenshots: previously clicking an image did
+  nothing. Added `yet-another-react-lightbox` (Raghav approved; ~360KB
+  unpacked, loaded via `next/dynamic` so it's not in the initial bundle) with
+  its Zoom plugin, in a new `ProjectLightbox.tsx` mounted once at the
+  `Projects` section level (not per-card) and driven by lifted state so only
+  one instance ever exists. The library handles Esc/backdrop close,
+  arrow-key nav, swipe/pinch-zoom, and scroll lock on its own; two gaps
+  needed covering explicitly: it doesn't hide prev/next arrows for a
+  single-image project (suppressed via its `render.buttonPrev/buttonNext`
+  slots when `slides.length <= 1`), and its focus-restore-on-close relies on
+  the browser populating `FocusEvent.relatedTarget`, which only happens for
+  a real mouse click, not a keyboard Tab-then-Enter open; `Projects.tsx` now
+  also stores the triggering button and focuses it explicitly on close.
+- Found while building the lightbox, not part of the original report: Enter
+  on any nested control inside an open card (an image thumbnail, or the
+  pre-existing GitHub/crates.io links) didn't activate it. `ProjectRow`'s
+  card-level `onKeyDown` (added for the card's own Enter/Space-to-toggle
+  keyboard support) fired on every bubbled keydown regardless of source,
+  calling `preventDefault()` and closing the very card the nested control
+  lives in. This silently broke keyboard activation of the existing links
+  too, not just the new lightbox trigger. Fixed by checking
+  `e.target === e.currentTarget` before toggling.
+- Found after the first pass, from screenshots showing a closed card
+  (TypeRush, or "Prompt Navigator" once expanded) sitting next to an open
+  sibling: my initial read of D27's row-height fix was incomplete. D27's
+  `items-stretch` (removed `items-start`) correctly equalizes two OPEN
+  cards' heights, but it also stretches a CLOSED card to match an open
+  sibling, producing exactly the empty-box-below-the-tags symptom in the
+  screenshots; my first verification pass only measured the "both open" and
+  "both closed" cases (which happen to look identical either way) and never
+  the mixed case. Fixed with `self-start` on a closed card so it opts out
+  of the row stretch and sizes to its own compact content, while leaving
+  the "both open" stretch behavior untouched.
+- Also found from the screenshots: the custom cursor (and the lightbox's
+  own zoom/grab cursor) were invisible whenever the lightbox was open. Both
+  the cursor ring and the lightbox portal use `z-index: 9999`; the portal,
+  mounted later in the DOM, painted over the ring, and the site's
+  `cursor: none` rule (how the custom cursor hides the native one) also
+  applies inside the portal, blocking the library's own cursor styling.
+  `ProjectLightbox` now dispatches a small window event on open/close, and
+  `Cursor.tsx` fully steps aside for the duration instead of fighting for
+  z-index space.
+- Reported again after the above round shipped: "show more/fewer projects"
+  still visibly scrolled/redirected the page. Root cause: `globals.css`
+  sets `scroll-behavior: smooth` on `<html>` site-wide, and the legacy
+  two-argument `window.scrollBy(x, y)` form inherits that instead of
+  snapping, so D27's compensation was animating over roughly 300-500ms
+  instead of jumping instantly. Combined with the `ResizeObserver` firing
+  more than once per toggle (an already-documented possibility, for the
+  collapse case in particular), a new animation would restart mid-flight
+  through the previous one, reading as the page moving on its own, even
+  though the resting position was correct, which is exactly why the D27
+  re-verification above measured before/after and found nothing wrong.
+  Switched to `window.scrollBy({ top: delta, left: 0, behavior: "instant" })`
+  to bypass the CSS default. Verified by sampling `window.scrollY` at 30ms
+  intervals through both directions: expand held steady then snapped to
+  its final value within one sample (no animated in-between values), and
+  collapse held steady through the ~300ms exit-fade delay then likewise
+  snapped in a single step.
+- Follow-up correction to the play-button pulse (see above): reverted
+  `repeatType` to `"loop"`, and root-caused the actual jank instead of
+  papering over it with a shape change. The reset itself was never the
+  problem to design around; scale and opacity only reached their fully
+  faded-out end values (`1.7`, `0`) for a single mathematical instant
+  before the loop restarted, so the renderer had no real buffer of clearly
+  invisible frames around the reset and could catch it mid-transition.
+  Added an explicit dwell via a `times: [0, 0.6, 1]` array: both values now
+  hold constant at their end state for the last 40% of the 1.8s cycle,
+  matching Tailwind's own `animate-ping` keyframe pattern (a `75%, 100%`
+  hold at the faded-out state). Verified by sampling scale/opacity at 60ms
+  resolution across two full cycles: both move in one direction only (no
+  reversal) each cycle, opacity reaches 0 at ~480ms while scale doesn't
+  finish expanding to 1.7 until ~780ms (opacity ahead of scale, not
+  behind), and there's a genuine ~540ms stretch (9 consecutive samples)
+  where both sit fully invisible before every reset. Confirmed no
+  regression to hero video playback or the Bug 1 macOS clipping fix.
+
+Version bumped to 2.0.3 (`package.json`, `version.ts` fallback), a patch
+release per `CONTRIBUTING.md`'s versioning rule (bug fixes, no new features
+or breaking changes). Added `CHANGELOG.md` (Keep a Changelog format; didn't
+exist before this round).
+
+Gates after this round: lint 0, `npm test` 22 passing (updated the footer
+version-string assertion to v2.0.3), `npm run build` 0, `tsc --noEmit` 0.
+Verified with Playwright (Chromium) at 375/768/1440px in both themes: hero
+playback and pulse, card open/close, "show more/fewer", lightbox open/nav/
+close/keyboard/mouse paths, and focus restore. Not verified: real macOS
+Chrome/Safari playback (the original bug's actual environment), and touch
+swipe/pinch-zoom gestures (no touch-capable device in this environment).
