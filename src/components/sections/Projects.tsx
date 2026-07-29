@@ -301,7 +301,16 @@ export default function Projects() {
       const newHeight = grid.getBoundingClientRect().height;
       const delta = newHeight - lastHeight;
       if (delta !== 0) {
-        window.scrollBy(0, delta);
+        // { behavior: "instant" } is required, not optional polish: globals.css
+        // sets scroll-behavior: smooth on <html> for every other scroll on the
+        // site, and the legacy two-argument scrollBy(x, y) form inherits that
+        // instead of snapping. Without this, each compensation animates over
+        // ~300-500ms, and when this fires more than once per toggle (see above),
+        // a new animation restarts mid-flight through the previous one, which
+        // reads as the page jumping/redirecting on its own instead of the
+        // button staying put. The end position was already correct either way,
+        // which is why measuring only before/after scrollY missed this.
+        window.scrollBy({ top: delta, left: 0, behavior: "instant" });
         lastHeight = newHeight;
       }
     });
