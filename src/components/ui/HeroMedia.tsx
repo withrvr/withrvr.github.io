@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Play, Square } from "lucide-react";
 import MagneticButton from "@/components/ui/MagneticButton";
 
@@ -24,6 +24,7 @@ interface HeroMediaProps {
 export default function HeroMedia({ poster, video, alt }: HeroMediaProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const reduce = useReducedMotion();
 
   const toggle = () => {
     const el = videoRef.current;
@@ -74,14 +75,20 @@ export default function HeroMedia({ poster, video, alt }: HeroMediaProps) {
       </video>
 
       {/* Play / Stop: icon only, fixed size and color, with a soft glow pulse.
-          Fixed size means toggling never shifts its position. */}
+          Fixed size means toggling never shifts its position. repeatType
+          "mirror" plays the keyframes forward then backward (and mirrors the
+          easing curve too), so the pulse breathes in and out continuously
+          instead of snapping back to frame 1 at the end of every loop
+          (the default "loop" repeatType). Disabled under reduced motion. */}
       <div className="absolute bottom-3 right-3 flex">
-        <motion.span
-          aria-hidden="true"
-          className="absolute inset-0 rounded-full bg-primary"
-          animate={{ scale: [1, 1.7], opacity: [0.45, 0] }}
-          transition={{ repeat: Infinity, duration: 1.8, ease: "easeOut" }}
-        />
+        {!reduce && (
+          <motion.span
+            aria-hidden="true"
+            className="absolute inset-0 rounded-full bg-primary"
+            animate={{ scale: [1, 1.7], opacity: [0.45, 0] }}
+            transition={{ repeat: Infinity, repeatType: "mirror", duration: 1.8, ease: "easeOut" }}
+          />
+        )}
         <MagneticButton strength={0.35}>
           <button
             type="button"
