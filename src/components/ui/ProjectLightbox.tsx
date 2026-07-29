@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
+import { LIGHTBOX_TOGGLE_EVENT } from "@/lib/lightboxEvents";
 
 // next/dynamic keeps the whole library (and its CSS) out of the initial
 // bundle; the chunk only loads the first time a project image is clicked.
@@ -31,6 +33,15 @@ interface ProjectLightboxProps {
 // the lightbox is opened via a real mouse click, not a keyboard-only
 // Tab-then-Enter, so Projects.tsx also focuses the trigger button itself.
 export default function ProjectLightbox({ slides, index, open, onClose }: ProjectLightboxProps) {
+  // The custom site cursor sits at the same z-index as this lightbox's
+  // portal and would otherwise be buried by it (DOM order, since the portal
+  // mounts after everything else), and the site's cursor:none rule would
+  // also block the library's own zoom/grab cursor affordances. Telling
+  // Cursor.tsx to step aside for the duration fixes both at once.
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent(LIGHTBOX_TOGGLE_EVENT, { detail: open }));
+  }, [open]);
+
   if (!open) return null;
   const hideNav = slides.length <= 1;
   return (
