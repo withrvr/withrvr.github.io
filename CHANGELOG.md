@@ -41,11 +41,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   it, and the site's `cursor: none` rule also suppressed the library's own
   cursor styling inside the portal. The custom cursor now fully steps aside
   while the lightbox is open. (#2)
-
-### Verified, no change needed
-
-- The "show more/fewer projects" toggle keeping its on-screen position
-  stable was already fixed in the prior [D27](docs/decisions.md#d27) round: a
-  `ResizeObserver`-driven scroll compensation. Re-verified with instrumented
-  Playwright measurements (sub-pixel scroll deltas on both open and
-  collapse).
+- "Show more/fewer projects" visibly scrolling/redirecting the page instead
+  of holding still. The prior D27 fix's scroll compensation (`window.scrollBy`)
+  was correct in its math, but the site sets `scroll-behavior: smooth`
+  globally, so each compensating scroll animated over roughly 300-500ms
+  instead of snapping instantly; when it fires more than once per toggle (an
+  already-documented possibility), a new animation restarted mid-flight
+  through the previous one, reading as the page moving on its own even
+  though the final position was correct. Now uses `behavior: "instant"`
+  explicitly. (#2)

@@ -627,15 +627,16 @@ re-verified, and one deeper bug found while building the fourth fix.
   under `useReducedMotion()`. Verified by sampling the ring's computed
   `transform`/`opacity` every 150ms through a full cycle: scale rose to
   ~1.70 then descended smoothly (1.70, 1.64, 1.55, 1.47, ...) with no jump.
-- "Show more/fewer" scroll stability: already fixed correctly in
-  [D27](#d27-loader-bug-projects-bugs-and-a-second-hover-pass-resolved-2026-07-25),
-  before v2.0.2 shipped. Re-verified with instrumented Playwright
+- "Show more/fewer" scroll stability, first pass: re-verified D27's
+  `ResizeObserver` + `scrollBy` compensation with instrumented Playwright
   measurements (native DOM `.click()`, not Playwright's own
   click-and-scroll-into-view helper, which was a red herring on the first
-  pass and produced a false ~578px "overshoot" that traced to Playwright's
-  own actionability behavior, not the app): toggle button position moves
-  under 1px on both expand and collapse. No code change; the #2 report
-  predates D27 reaching a release.
+  attempt and produced a false ~578px "overshoot" that traced to
+  Playwright's own actionability behavior, not the app): toggle button
+  position moved under 1px on both expand and collapse, so this was
+  initially logged as no change needed. That measured only the resting
+  position before and after, not the motion in between, and missed a real
+  bug (see below).
 - Image lightbox for project screenshots: previously clicking an image did
   nothing. Added `yet-another-react-lightbox` (Raghav approved; ~360KB
   unpacked, loaded via `next/dynamic` so it's not in the initial bundle) with
@@ -678,6 +679,23 @@ re-verified, and one deeper bug found while building the fourth fix.
   `ProjectLightbox` now dispatches a small window event on open/close, and
   `Cursor.tsx` fully steps aside for the duration instead of fighting for
   z-index space.
+- Reported again after the above round shipped: "show more/fewer projects"
+  still visibly scrolled/redirected the page. Root cause: `globals.css`
+  sets `scroll-behavior: smooth` on `<html>` site-wide, and the legacy
+  two-argument `window.scrollBy(x, y)` form inherits that instead of
+  snapping, so D27's compensation was animating over roughly 300-500ms
+  instead of jumping instantly. Combined with the `ResizeObserver` firing
+  more than once per toggle (an already-documented possibility, for the
+  collapse case in particular), a new animation would restart mid-flight
+  through the previous one, reading as the page moving on its own, even
+  though the resting position was correct, which is exactly why the D27
+  re-verification above measured before/after and found nothing wrong.
+  Switched to `window.scrollBy({ top: delta, left: 0, behavior: "instant" })`
+  to bypass the CSS default. Verified by sampling `window.scrollY` at 30ms
+  intervals through both directions: expand held steady then snapped to
+  its final value within one sample (no animated in-between values), and
+  collapse held steady through the ~300ms exit-fade delay then likewise
+  snapped in a single step.
 
 Version bumped to 2.0.3 (`package.json`, `version.ts` fallback), a patch
 release per `CONTRIBUTING.md`'s versioning rule (bug fixes, no new features
