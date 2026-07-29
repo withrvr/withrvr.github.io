@@ -74,19 +74,32 @@ export default function HeroMedia({ poster, video, alt }: HeroMediaProps) {
         <source src={video} type="video/mp4" />
       </video>
 
-      {/* Play / Stop: icon only, fixed size and color, with a soft glow pulse.
-          Fixed size means toggling never shifts its position. repeatType
-          "mirror" plays the keyframes forward then backward (and mirrors the
-          easing curve too), so the pulse breathes in and out continuously
-          instead of snapping back to frame 1 at the end of every loop
-          (the default "loop" repeatType). Disabled under reduced motion. */}
+      {/* Play / Stop: icon only, fixed size and color, with a soft radar-ping
+          pulse behind it. Fixed size means toggling never shifts its position.
+          The pulse is one-directional per cycle (center to out, never
+          reverse) and loops via repeatType "loop"; what used to make the loop
+          restart look like a stutter was that scale/opacity only reached
+          their faded-out end values for a single instant before snapping
+          back, so the browser could paint a frame where the ring was already
+          reappearing before it had ever been cleanly invisible. Holding scale
+          and opacity constant at their end values for the last 40% of each
+          cycle (the `1.7, 1.7` / `0, 0` repeats below, timed via `times`)
+          guarantees several fully-invisible frames before every reset, so the
+          restart lands on a frame with nothing to see, same as the very
+          first cycle on mount. Disabled under reduced motion. */}
       <div className="absolute bottom-3 right-3 flex">
         {!reduce && (
           <motion.span
             aria-hidden="true"
             className="absolute inset-0 rounded-full bg-primary"
-            animate={{ scale: [1, 1.7], opacity: [0.45, 0] }}
-            transition={{ repeat: Infinity, repeatType: "mirror", duration: 1.8, ease: "easeOut" }}
+            animate={{ scale: [1, 1.7, 1.7], opacity: [0.45, 0, 0] }}
+            transition={{
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 1.8,
+              times: [0, 0.6, 1],
+              ease: "easeOut",
+            }}
           />
         )}
         <MagneticButton strength={0.35}>
