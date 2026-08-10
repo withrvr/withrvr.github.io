@@ -30,7 +30,8 @@ Updated as work moves.
   GitHub repos), Achievements (replaces Publications), Education (both entries),
   Schedule (Gmail-compose button), Contact (Gmail-compose form).
 - Pages: composed home, creative interactive 404, sitemap, robots, manifest,
-  llms.txt.
+  llms.txt, direct routes for every section (about, skills, experience,
+  projects, achievements, education, contact) plus /resume.
 - SEO: metadata and Open Graph, no Twitter card, web app manifest, llms.txt
   markdown mirror for AI agents and bots.
 - Assets: v1 hero image and video, profile photo, project images, og image,
@@ -216,3 +217,18 @@ Updated as work moves.
   (the real fix for the jank, matching Tailwind's own `animate-ping`
   pattern). Version bumped to 2.0.3. Added `CHANGELOG.md`. Gates green,
   22 tests throughout.
+- 2026-08-10: Resume content sync, per-section routes, resume link update
+  (decisions D31). `experience.json` Homeville bullets synced to the latest
+  resume. Added a direct route per homepage section (`/about`, `/skills`,
+  `/experience`, `/projects`, `/achievements`, `/education`, `/contact`),
+  each a static page that client-redirects to the matching `/#anchor`
+  (`RouteRedirect.tsx`), noindexed with a canonical pointing at the anchor
+  so these don't compete with the homepage in search. Added `/resume`,
+  which redirects straight to the resume link the same way; framed as a
+  302 in the request, but this is a static export with no server, so no
+  route can send a real HTTP redirect status, this is the fastest a static
+  host can do. Resume link updated everywhere it lives (GitHub Actions
+  variable, `.env.local`, `site.json` fallback) and added to `llms.txt` so
+  AI agents get the real URL instead of guessing it from the Resume
+  button. Version bumped to 2.0.4. Gates green, 22 tests; all 15 built
+  routes verified 200 via a local static server, unmatched paths 404.

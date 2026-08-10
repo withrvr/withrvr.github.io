@@ -726,3 +726,67 @@ playback and pulse, card open/close, "show more/fewer", lightbox open/nav/
 close/keyboard/mouse paths, and focus restore. Not verified: real macOS
 Chrome/Safari playback (the original bug's actual environment), and touch
 swipe/pinch-zoom gestures (no touch-capable device in this environment).
+
+## D31. Resume content sync, per-section routes, resume link update, RESOLVED 2026-08-10
+
+Three asks bundled into one v2.0.4 commit: sync `experience.json` to a
+newly pasted resume, add a direct route for every homepage section plus
+`/resume`, and update the resume link everywhere it lives.
+
+- Resume sync: compared the pasted resume against every `src/data/*.json`
+  file. Only the Homeville Group bullets in `experience.json` had drifted:
+  added "Scaled backend task processing...", "Owned 3 projects...", and
+  "Built a rule based policy engine..."; removed the multi-cloud
+  evaluation, masked-dummy-dataset, and post-deployment-validation bullets,
+  none of which appear on the new resume. Everything else (profile stats,
+  achievements, skills, both featured projects, TSEC education entry,
+  contact info) already matched.
+- Flagged rather than silently changed: `education.json` still lists a
+  second entry (Government Polytechnic Amravati diploma) not present on
+  this resume version. Left as is pending an explicit call, since removing
+  a whole education entry is a bigger content decision than syncing
+  bullets.
+- Routes: the request asked for a real "302 (Temporary)" on `/resume` and
+  plain routes elsewhere. This site is `output: "export"` (static, no
+  server) deployed to GitHub Pages, which can only serve a matched file at
+  200 or miss at 404, it cannot emit a custom HTTP status for a path, and
+  Next's own `redirects()`/middleware are unavailable under static export
+  for the same reason. Asked the user how to handle that gap; chose the
+  client-side instant redirect over standing up an edge proxy (Cloudflare
+  Redirect Rules need a custom domain in front of GitHub Pages, which this
+  site doesn't have) or a Vercel-only `vercel.json` redirect (would only
+  be real on the Vercel domain, not `withrvr.github.io`, so behavior would
+  differ by host). Built `RouteRedirect.tsx`: fires `router.replace()` (or
+  `window.location.replace()` for the external resume link) the instant
+  the client hydrates, with a `<meta http-equiv="refresh">` and a
+  `<noscript>` link as fallbacks for clients that never run the script.
+  Reused it for one page per section id that actually exists on `/`
+  (`about`, `skills`, `experience`, `projects`, `achievements`,
+  `education`, `contact`; skipped `schedule`, its section component exists
+  in the tree but isn't rendered on the page, so there's no anchor to
+  redirect to) plus `/resume`. Each section route is `noindex` with a
+  canonical pointing at its `/#anchor`, so it doesn't compete with the
+  homepage in search; `/resume` is `noindex, nofollow` since it points off
+  site. Left `sitemap.xml` listing only the homepage, matching the
+  noindex intent. `/404` needed no new work, `not-found.tsx` already
+  covers it and GitHub Pages already serves the exported `404.html`.
+- Resume link: updated the `NEXT_PUBLIC_RESUME_URL` GitHub Actions
+  repository variable (via `gh variable set`), `.env.local`, and
+  `site.json`'s `resumeFallbackUrl`, which previously each pointed at a
+  different Drive link. Added a `Resume:` line to `llms.txt` (previously
+  absent) so an AI agent reading the site's own AI-facing mirror gets the
+  real link instead of having to infer it from the Resume button.
+
+Version bumped to 2.0.4 (`package.json`, `version.ts` fallback, the
+Footer version-string test).
+
+Gates after this round: lint 0, `npm test` 22 passing, `npm run build` 0
+(15 routes prerendered as static content). Verified by serving `out/`
+with a local static server and curling every route: all 15 return 200,
+an unmatched path returns 404. Confirmed by grepping the built HTML that
+`/resume/index.html` carries the new Drive link in both the meta-refresh
+tag and the redirect script, and that each section route's meta-refresh
+points at the right `/#anchor`. Not verified: real GitHub Pages serving
+(this round did not push), and no browser-level check of the client-side
+redirect's actual paint (only the static output and the mechanism were
+verified, not a live render).

@@ -5,6 +5,38 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.4] - 2026-08-10
+
+### Added
+
+- Direct routes for every homepage section: `/about`, `/skills`,
+  `/experience`, `/projects`, `/achievements`, `/education`, `/contact`.
+  Each is a tiny static page that redirects to the matching anchor on `/`
+  (`RouteRedirect.tsx`), so a link straight to `/contact` lands on the
+  Contact section instead of 404ing. Marked `noindex` with a canonical
+  pointing at the anchor, so search engines index the one real page instead
+  of treating these as duplicate content.
+- `/resume` route that redirects straight to the resume link. Framed as a
+  302 in product terms, but this is a static export (`output: "export"`) on
+  GitHub Pages with no server, so no route here can send back a real HTTP
+  redirect status; this is the fastest a static host can do, a client-side
+  redirect that fires the instant the page hydrates, with a `<meta
+  http-equiv="refresh">` and a `<noscript>` link as fallbacks for clients
+  that never run the script.
+- Resume link now listed in `llms.txt`, so AI agents reading the site's
+  llms.txt mirror get the actual resume URL instead of having to guess it
+  from the Resume button.
+
+### Changed
+
+- Resume link updated to the latest version across every place it lives:
+  the `NEXT_PUBLIC_RESUME_URL` GitHub Actions repository variable, local
+  `.env.local`, and the `resumeFallbackUrl` fallback in `site.json`.
+- `experience.json`: refreshed the Homeville Group bullets to match the
+  latest resume (added the async workers/queues, project ownership, and
+  rule-based policy engine bullets; dropped three that no longer appear on
+  the resume).
+
 ## [2.0.3] - 2026-07-29
 
 ### Fixed

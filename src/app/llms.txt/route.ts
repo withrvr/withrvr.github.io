@@ -1,4 +1,5 @@
 import { site, profile, skills, experience, projects, achievements, education } from "@/lib/content";
+import { resumeUrl } from "@/lib/mail";
 
 export const dynamic = "force-static";
 
@@ -19,6 +20,7 @@ function buildContent(): string {
   lines.push(`- Location: ${site.location}`);
   lines.push(`- Email: ${site.email}`);
   lines.push(`- Site: ${site.meta.url}`);
+  lines.push(`- Resume: ${resumeUrl}`);
   for (const s of site.socials) lines.push(`- ${s.label}: ${s.href}`);
 
   lines.push("", "## About", "");
