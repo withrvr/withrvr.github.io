@@ -1,7 +1,8 @@
 name: Deploy to GitHub Pages
 
-# Vercel needs none of this: importing the repo there builds and serves the
-# static export automatically. This workflow is the GitHub Pages path.
+# Static site: index.html, llms.txt, favicon.svg, and resume/index.html
+# are committed as-is. No build step, nothing to compile - this just
+# stages those files and hands them to GitHub Pages.
 
 on:
   push:
@@ -18,36 +19,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # Full history so next.config can read the commit hash and date.
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run lint
-      - run: npm test
-      - run: npm run build
-        env:
-          # Optional. If this repository variable is unset the build falls back
-          # to resumeFallbackUrl in src/data/site.json, so the Resume button
-          # still renders and links somewhere valid.
-          NEXT_PUBLIC_RESUME_URL: ${{ vars.NEXT_PUBLIC_RESUME_URL }}
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: out
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+      - name: Stage site files
+        run: |
+          mkdir -p _site/resume
+          cp index.html llms.txt _site/
+          [ -f favicon.svg ] && cp favicon.svg _site/ || true
+          [ -f favicon.ico ] && cp favicon.ico _site/ || true
+          cp resume/index.html _site/resume/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
