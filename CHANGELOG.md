@@ -19,6 +19,10 @@ up to the v3 cutover commit.
   and `favicon.svg` and publishes them to GitHub Pages on push to `main`.
 - New `llms.txt`, a static plain-text mirror of the site.
 - New favicon/branding for v3.
+- `index.html` given a proper `<!DOCTYPE>`/`<html>`/`<head>`/`<body>`
+  document structure (it was still shaped as a Claude Artifact fragment,
+  which only the Artifact platform auto-wraps).
+- README screenshot (`docs/screenshot.png`).
 
 ### Removed
 

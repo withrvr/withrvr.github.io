@@ -6,7 +6,7 @@ file, no framework, no build step.
 
 **Live:** https://withrvr.github.io &nbsp;·&nbsp; try `help` once it boots.
 
-<!-- screenshot: docs/screenshot.png -->
+![RVR/OS v3.0 — a CRT-terminal boot screen showing the login sequence and an identity panel with role, stack, and contact links](docs/screenshot.png)
 
 ## How it's built
 
