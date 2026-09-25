@@ -1,0 +1,22 @@
+{
+  "_comment": "Single source of truth for withrvr.github.io v3. Fields under `wired` are baked into index.html, llms.txt, and /resume automatically by scripts/build.mjs on every push to main. Fields under `reference` mirror the rest of the site's content for humans editing it; they are not yet auto-synced into index.html (that content is baked directly into templates/index.template.html) - see docs/v3.md for what to do if one of those changes.",
+
+  "wired": {
+    "siteTitle": "RVR/OS v3.0 — Raghav Rathi, Backend Engineer",
+    "metaDescription": "Raghav Rathi (withrvr) — Backend Software Engineer. A working CRT-terminal portfolio: cat about.txt, ls projects/, grab the resume, or just play snake.",
+    "resumeUrl": "https://drive.google.com/file/d/1G1Xz8olWfLLhjHFvNIeVfRdFbflbJRkL/view?usp=sharing",
+    "contactEmail": "raghavrathi8855@gmail.com"
+  },
+
+  "reference": {
+    "name": "Raghav Rathi",
+    "handle": "withrvr",
+    "role": "Backend Software Engineer",
+    "location": "Mumbai, India",
+    "stack": "linux sql python fastapi django",
+    "status": "open to SDE-1/2 backend roles",
+    "linkedin": "https://linkedin.com/in/withrvr",
+    "github": "https://github.com/withrvr",
+    "siteUrl": "https://withrvr.github.io"
+  }
+}
