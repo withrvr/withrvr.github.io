@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 v2's changelog (the Next.js build) is preserved in git history on `main`
 up to the v3 cutover commit.
 
+## [3.0.1] - 2026-09-25
+
+### Changed
+
+- `favicon.svg`: the `_` cursor now blinks (hard on/off step, ~530ms per
+  phase, matching a real terminal cursor) instead of sitting static.
+  Respects `prefers-reduced-motion`.
+- Version strings throughout `index.html` (title, footer badge, boot
+  sequence, login banner, `os-release`, `readme.txt`) bumped from
+  `v3.0` to `v3.0.1`.
+- README screenshot regenerated to match.
+
 ## [3.0.0] - 2026-09-25
 
 ### Changed
@@ -19,6 +31,7 @@ up to the v3 cutover commit.
   and `favicon.svg` and publishes them to GitHub Pages on push to `main`.
 - New `llms.txt`, a static plain-text mirror of the site.
 - New favicon/branding for v3.
+- New `/resume` static redirect (`resume/index.html`).
 - `index.html` given a proper `<!DOCTYPE>`/`<html>`/`<head>`/`<body>`
   document structure (it was still shaped as a Claude Artifact fragment,
   which only the Artifact platform auto-wraps).
