@@ -16,6 +16,7 @@ Classic static site, three files:
 - `llms.txt` — a plain-text mirror of the site for AI agents/bots, per
   [llmstxt.org](https://llmstxt.org).
 - `favicon.svg`
+- `resume/index.html` — static redirect: `/resume` → the resume link.
 
 `.github/workflows/deploy.yml` stages those files and publishes them to
 GitHub Pages on every push to `main`. There's nothing to install and

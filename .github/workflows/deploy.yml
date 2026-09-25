@@ -1,8 +1,8 @@
 name: Deploy to GitHub Pages
 
-# Static site: index.html, llms.txt, and favicon.svg are committed as-is.
-# No build step, nothing to compile - this just stages those files and
-# hands them to GitHub Pages.
+# Static site: index.html, llms.txt, favicon.svg, and resume/index.html
+# are committed as-is. No build step, nothing to compile - this just
+# stages those files and hands them to GitHub Pages.
 
 on:
   push:
@@ -28,10 +28,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Stage site files
         run: |
-          mkdir -p _site
+          mkdir -p _site/resume
           cp index.html llms.txt _site/
           [ -f favicon.svg ] && cp favicon.svg _site/ || true
           [ -f favicon.ico ] && cp favicon.ico _site/ || true
+          cp resume/index.html _site/resume/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
