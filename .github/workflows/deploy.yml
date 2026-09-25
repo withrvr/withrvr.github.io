@@ -1,5 +1,9 @@
 name: Deploy to GitHub Pages
 
+# Static site: index.html, llms.txt, and favicon.svg are committed as-is.
+# No build step, nothing to compile - this just stages those files and
+# hands them to GitHub Pages.
+
 on:
   push:
     branches: [main]
@@ -15,24 +19,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - run: node scripts/build.mjs
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+      - name: Stage site files
+        run: |
+          mkdir -p _site
+          cp index.html llms.txt _site/
+          [ -f favicon.svg ] && cp favicon.svg _site/ || true
+          [ -f favicon.ico ] && cp favicon.ico _site/ || true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4

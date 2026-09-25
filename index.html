@@ -1,6 +1,7 @@
 <title>RVR/OS v3.0 — Raghav Rathi, Backend Engineer</title>
-<meta name="description" content="__META_DESCRIPTION__">
+<meta name="description" content="Raghav Rathi (withrvr) — Backend Software Engineer. A working CRT-terminal portfolio: cat about.txt, ls projects/, grab the resume, or just play snake.">
 <meta name="theme-color" content="#031a07">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
 :root{
   --fg:#33ff66; --fg-rgb:51,255,102; --bg:#031a07; --bg-hi:#073012; --bg-lo:#010c03; --hot:#dcffe5;
@@ -1059,7 +1060,7 @@ const FS = D({
   ]), 'Sep 25  2026'),
       'contact.txt': F(T([    'GET IN TOUCH',
     '==================================================',
-    'Email     __CONTACT_EMAIL__',
+    'Email     raghavrathi8855@gmail.com',
     'LinkedIn  linkedin.com/in/withrvr',
     'GitHub    github.com/withrvr',
     'LeetCode  leetcode.com/u/withrvr',
@@ -1477,11 +1478,11 @@ def('skills', 'the stack I build with', 'skills', (a, r) => CMDS.cat.run(['skill
 def('education', "where I've studied", 'education', (a, r) => CMDS.cat.run(['education.txt'], 'cat education.txt'));
 def('achievements', 'recognition + contest stats', 'achievements', (a, r) => CMDS.cat.run(['achievements.txt'], 'cat achievements.txt'));
 def('contact', 'reach out (opens mail client)', 'contact', async () => {
-  try { window.open('mailto:__CONTACT_EMAIL__?subject=' + encodeURIComponent('New message from your portfolio'), '_blank'); } catch (e) {}
+  try { window.open('mailto:raghavrathi8855@gmail.com?subject=' + encodeURIComponent('New message from your portfolio'), '_blank'); } catch (e) {}
   return CMDS.cat.run(['contact.txt'], 'cat contact.txt');
 });
 def('resume', 'open my resume (PDF)', 'resume', async () => {
-  const url = '__RESUME_URL__';
+  const url = 'https://drive.google.com/file/d/1G1Xz8olWfLLhjHFvNIeVfRdFbflbJRkL/view?usp=sharing';
   try { window.open(url, '_blank', 'noopener'); } catch (e) {}
   return print([[S('opening resume → ', 'dim'), S(url, 'u')]]);
 });

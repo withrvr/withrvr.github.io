@@ -1,0 +1,17 @@
+# Raghav Rathi (withrvr)
+
+> Raghav Rathi (withrvr) — Backend Software Engineer. A working CRT-terminal portfolio: cat about.txt, ls projects/, grab the resume, or just play snake.
+
+- Site: https://withrvr.github.io
+- Resume: https://drive.google.com/file/d/1G1Xz8olWfLLhjHFvNIeVfRdFbflbJRkL/view?usp=sharing
+- Email: raghavrathi8855@gmail.com
+- LinkedIn: https://linkedin.com/in/withrvr
+- GitHub: https://github.com/withrvr
+- Location: Mumbai, India
+- Stack: linux sql python fastapi django
+- Status: open to SDE-1/2 backend roles
+
+This site is a CRT-terminal simulation. Everything a browser sees is also
+reachable inside the terminal itself: try `about`, `experience`,
+`education`, `skills`, `achievements`, `projects`, `contact`,
+`resume`, or `help` for the full command list.

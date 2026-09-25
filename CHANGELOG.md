@@ -13,16 +13,11 @@ up to the v3 cutover commit.
 ### Changed
 
 - Full rewrite: replaced the v2 Next.js app with a single static
-  CRT-terminal HTML page (`templates/index.template.html`).
-- Content is now split between `info.json` (fields that change on their
-  own schedule: resume link, contact email, meta description) and the
-  template itself (everything else).
-- New build pipeline: `scripts/build.mjs` bakes `info.json` into the
-  template on every push to `main` and deploys the result; no framework,
-  no client-side data fetch.
-- New `/resume` route (static redirect) and custom `404.html`, both
-  generated at build time.
-- New `llms.txt`, generated at build time from `info.json`.
+  CRT-terminal HTML page (`index.html`). No framework, no build step,
+  no data file - content lives directly in the page.
+- `.github/workflows/deploy.yml` now just stages `index.html`, `llms.txt`,
+  and `favicon.svg` and publishes them to GitHub Pages on push to `main`.
+- New `llms.txt`, a static plain-text mirror of the site.
 - New favicon/branding for v3.
 
 ### Removed
