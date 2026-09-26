@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RVR/OS v3.0.1 — Raghav Rathi, Backend Engineer</title>
+<title>RVR/OS v3.0.2 — Raghav Rathi, Backend Engineer</title>
 <meta name="description" content="Raghav Rathi (withrvr) — Backend Software Engineer. A working CRT-terminal portfolio: cat about.txt, ls projects/, grab the resume, or just play snake.">
 <meta name="theme-color" content="#031a07">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -335,7 +335,7 @@ body{
       </div>
       <canvas class="fx" id="fx" aria-hidden="true"></canvas>
       <div class="status" id="status">
-        <span class="tag">RVR/OS 3.0.1</span>
+        <span class="tag">RVR/OS 3.0.2</span>
         <span class="wide">tty1</span>
         <span class="wide" id="stPath">raghav@withrvr:~</span>
         <span class="fill"></span>
@@ -807,11 +807,11 @@ const FS = D({
   etc: D({
     hostname: F('withrvr', 'Sep 25  2026'),
     motd: F(T(['Welcome to RVR/OS.', 'cat about.txt to get started.']), 'Sep 25  2026'),
-    'os-release': F(T(['NAME="RVR/OS"', 'VERSION="3.0.1"', 'ID=withrvr', 'VENDOR="withrvr"', 'PRETTY_NAME="RVR/OS v3.0.1"']), 'Sep 25  2026')
+    'os-release': F(T(['NAME="RVR/OS"', 'VERSION="3.0.2"', 'ID=withrvr', 'VENDOR="withrvr"', 'PRETTY_NAME="RVR/OS v3.0.2"']), 'Sep 25  2026')
   }, 'Sep 25  2026'),
   home: D({
     raghav: D({
-      'readme.txt': F(T([    'RVR/OS v3.0.1 -- welcome',
+      'readme.txt': F(T([    'RVR/OS v3.0.2 -- welcome',
     '===============================================',
     'This is the terminal portfolio of Raghav Rathi (withrvr), a backend software engineer. Poke around like a real shell:',
     '',
@@ -1031,12 +1031,12 @@ function bannerLines(cols){
   const L = [];
   if (cols >= 46){ for (const s of LOGO) L.push({ cls: 'logo', segs: [S(s, 'hot')] }); }
   else L.push({ cls: '', segs: [S('W I T H R V R', 'hot b')] });
-  L.push({ cls: '', segs: [S(' /OS v3.0.1 ', 'inv'), S(cols >= 52 ? '  Backend Software Engineer · Mumbai' : '  backend engineer', 'dim')] });
+  L.push({ cls: '', segs: [S(' /OS v3.0.2 ', 'inv'), S(cols >= 52 ? '  Backend Software Engineer · Mumbai' : '  backend engineer', 'dim')] });
   L.push('');
   const info = [
     [S('raghav', 'hot b'), S('@', 'dim'), S('withrvr', 'hot b')],
     [S('───────────────', 'dim')],
-    [S('OS       ', 'dim'), S('RVR/OS v3.0.1')],
+    [S('OS       ', 'dim'), S('RVR/OS v3.0.2')],
     [S('Role     ', 'dim'), S('Backend Software Engineer')],
     [S('Base     ', 'dim'), S('Mumbai, India')],
     [S('Stack    ', 'dim'), S('linux sql python fastapi django')],
@@ -1240,7 +1240,7 @@ def('help', 'this list', 'help', async () => {
   const rows = Object.values(CMDS).filter(c => !c.hidden);
   const { cols } = measure();
   const w = cols >= 64 ? 26 : 0;
-  const L = [[S(' RVR/OS v3.0.1 ', 'inv'), S('  built-in commands', 'dim')], ''];
+  const L = [[S(' RVR/OS v3.0.2 ', 'inv'), S('  built-in commands', 'dim')], ''];
   for (const c of rows){
     if (w) L.push([S('  ' + c.usage.padEnd(w, ' '), 'hot'), S(c.desc, '')]);
     else { L.push([S('  ' + c.usage, 'hot')]); L.push([S('      ' + c.desc, 'dim')]); }
@@ -1487,7 +1487,7 @@ async function boot(isReboot){
   await emit(['', [S(narrow ? 'Press DEL for SETUP · any key skips' : 'Press DEL to enter SETUP · any key to skip boot', 'dim')], ''], Infinity);
   await sleep(240);
   badge.classList.remove('show');
-  await emit([[S('Booting from RVR-DISK …', 'b')], [S('RVR/OS v3.0.1 loading', '')]], fast ? Infinity : 2400);
+  await emit([[S('Booting from RVR-DISK …', 'b')], [S('RVR/OS v3.0.2 loading', '')]], fast ? Infinity : 2400);
   const bar = newLine('');
   const BW = narrow ? 18 : 32;
   await new Promise(res => {
@@ -1521,7 +1521,7 @@ async function boot(isReboot){
 async function login(my){
   if (my == null) my = ++bootToken;
   state.mode = 'boot';
-  await emit([[S('RVR/OS v3.0.1 (withrvr) (tty1)', 'dim')], ''], Infinity);
+  await emit([[S('RVR/OS v3.0.2 (withrvr) (tty1)', 'dim')], ''], Infinity);
   const ln = newLine('');
   appendTo(ln, 'withrvr login: ');
   await sleep(170);

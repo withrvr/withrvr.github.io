@@ -1,4 +1,4 @@
-# RVR/OS v3.0.1
+# RVR/OS v3.0.2
 
 Personal portfolio of **Raghav Rathi** ([withrvr](https://github.com/withrvr)) —
 a CRT-terminal simulation you drive by typing commands. One static HTML
