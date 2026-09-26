@@ -116,6 +116,8 @@ body{
 .banner.still .l{ animation:none; }
 @keyframes lineIn{ from{ opacity:0; filter:brightness(3); transform:translateX(-6px); } to{ opacity:1; filter:none; transform:none; } }
 
+#out a, .banner a{ color:inherit; text-decoration:none; cursor:pointer; }
+#out a:hover, .banner a:hover{ text-shadow:0 0 3px var(--fg), 0 0 14px rgba(var(--fg-rgb),.6); }
 .hot{ color:var(--hot); text-shadow:0 0 2px var(--fg), 0 0 9px rgba(var(--fg-rgb),.75), 0 0 26px rgba(var(--fg-rgb),.4); }
 .dim{ color:rgba(var(--fg-rgb),.58); text-shadow:0 0 5px rgba(var(--fg-rgb),.25); }
 .faint{ color:rgba(var(--fg-rgb),.28); text-shadow:none; }
@@ -266,7 +268,7 @@ body{
 .led.lit{ background:var(--fg); box-shadow:0 0 6px var(--fg), 0 0 14px rgba(var(--fg-rgb),.6), inset 0 -1px 1px rgba(0,0,0,.3); }
 .brand-name{ font-size:12px; font-weight:700; letter-spacing:.34em; text-transform:uppercase; color:#b9b3a2; text-shadow:0 1px 0 #000, 0 -1px 0 rgba(255,255,255,.07); }
 .brand-model{ font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#6c685c; }
-.keys{ display:flex; gap:8px; flex:1; min-width:0; overflow-x:auto; scrollbar-width:none; padding:4px 2px 6px; justify-content:center; }
+.keys{ display:flex; gap:8px; flex:1; min-width:0; overflow-x:auto; scrollbar-width:none; padding:4px 2px 6px; justify-content:flex-end; }
 .keys::-webkit-scrollbar{ display:none; }
 .key{
   flex:none; display:inline-flex; align-items:center; gap:7px;
@@ -504,7 +506,7 @@ function thunk(){
 
 /* ------------------------------------------------------------ output engine (streams at "baud") */
 const MAX_NODES = 700;
-const S = (t, c) => ({ t: String(t), c: c || '' });
+const S = (t, c, href) => ({ t: String(t), c: c || '', href: href || null });
 function norm(l){
   if (l == null || l === '') return { cls: '', segs: [] };
   if (typeof l === 'string') return { cls: '', segs: [S(l)] };
@@ -521,8 +523,9 @@ function newLine(cls, parent){
 }
 function fillLine(el, line){
   for (const s of line.segs){
-    const sp = document.createElement('span');
+    const sp = document.createElement(s.href ? 'a' : 'span');
     if (s.c) sp.className = s.c;
+    if (s.href){ sp.href = s.href; sp.target = '_blank'; sp.rel = 'noopener noreferrer'; }
     sp.textContent = s.t; el.appendChild(sp);
   }
   return el;
@@ -550,7 +553,8 @@ function play(j){
         if (si >= L.segs.length){ li++; lineEl = null; continue; }
         const sg = L.segs[si];
         if (!node){
-          const sp = document.createElement('span'); if (sg.c) sp.className = sg.c;
+          const sp = document.createElement(sg.href ? 'a' : 'span'); if (sg.c) sp.className = sg.c;
+          if (sg.href){ sp.href = sg.href; sp.target = '_blank'; sp.rel = 'noopener noreferrer'; }
           node = document.createTextNode(''); sp.appendChild(node); lineEl.appendChild(sp);
         }
         const n = Math.min(sg.t.length - ci, Math.floor(Math.min(budget, 1e7)));
@@ -1369,7 +1373,7 @@ def('projects', 'list, or open one by id', 'projects [id]', async (argv) => {
     const L = [[S(' PROJECTS ', 'inv'), S('  projects <id> to open one · ls projects/ also works', 'dim')], ''];
     for (const p of PROJECTS){
       const head = [S(p.name, 'hot b'), S(' [' + p.statusLabel + ']', 'dim')];
-      for (const l of (p.links || [])) head.push(S(' ['), S(l.label, 'u'), S(']'));
+      for (const l of (p.links || [])) head.push(S(' ['), S(l.label, 'u', l.href), S(']'));
       L.push(head);
       L.push([S(p.blurb)]);
       L.push('');
