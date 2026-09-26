@@ -268,8 +268,6 @@ body{
 .brand-model{ font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#6c685c; }
 .keys{ display:flex; gap:8px; flex:1; min-width:0; overflow-x:auto; scrollbar-width:none; padding:4px 2px 6px; justify-content:center; }
 .keys::-webkit-scrollbar{ display:none; }
-.dials{ display:flex; align-items:center; gap:8px; flex:none; }
-.dial-label{ font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:#6c685c; margin-right:2px; }
 .key{
   flex:none; display:inline-flex; align-items:center; gap:7px;
   font:600 11px/1 var(--mono); letter-spacing:.14em; text-transform:uppercase;
@@ -283,9 +281,6 @@ body{
 .key:active, .key.pressed{ transform:translateY(2px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05), inset 0 -1px 0 rgba(0,0,0,.2), 0 0 0 #050604, 0 1px 3px rgba(0,0,0,.5); }
 .key:focus-visible, .brand:focus-visible{ outline:2px solid var(--fg); outline-offset:3px; }
 .key svg{ width:12px; height:12px; }
-.lamp{ position:relative; width:7px; height:7px; border-radius:50%; background:#141510; box-shadow:inset 0 1px 1px rgba(0,0,0,.7); }
-.lamp::after{ content:""; position:absolute; inset:0; border-radius:50%; background:var(--c, var(--fg)); opacity:.26; transition:opacity .25s, box-shadow .25s; }
-.key[aria-pressed="true"] .lamp::after{ opacity:1; box-shadow:0 0 6px var(--c, var(--fg)), 0 0 12px var(--c, var(--fg)); }
 
 /* ------------------------------------------------ responsive */
 @media (max-width: 980px){
@@ -294,21 +289,14 @@ body{
 @media (max-width: 720px){
   :root{ --fs:12px; --pad-x:12px; --bezel:8px; }
   .keys{ -webkit-mask-image:linear-gradient(90deg, #000 82%, transparent); mask-image:linear-gradient(90deg, #000 82%, transparent); padding-right:28px; }
-  .tkey .tl{ display:none; }
-  .tkey{ padding:9px 9px 8px; }
   .screen{ border-radius:18px / 16px; box-shadow:0 0 0 1px #000, 0 0 0 4px #161814, 0 0 40px 4px rgba(var(--fg-rgb),.09); }
   .strip{ gap:8px; padding:6px 8px calc(8px + env(safe-area-inset-bottom)); }
   .brand{ display:none; }
   .keys{ justify-content:flex-start; }
-  .dial-label{ display:none; }
-  .dials{ gap:6px; }
   .key{ padding:9px 10px 8px; letter-spacing:.1em; }
   .status .wide{ display:none; }
   .bios-badge{ display:none; }
   .vignette{ box-shadow:inset 0 0 50px 10px rgba(0,0,0,.7), inset 0 0 6px 2px rgba(0,0,0,.95); }
-}
-@media (max-width: 420px){
-  .key .lbl-long{ display:none; }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -375,7 +363,7 @@ body{
     <button type="button" class="key" data-cmd="skills">Skills</button>
     <button type="button" class="key" data-cmd="resume">Resume</button>
     <button type="button" class="key" data-cmd="contact">Contact</button>
-    <button type="button" class="key" data-cmd="snake">Snake</button>
+    <button type="button" class="key" data-cmd="help">Help</button>
     <button type="button" class="key" data-cmd="clear">Clear</button>
   </nav>
   <nav class="keys" id="pad" aria-label="Snake controls" hidden>
@@ -386,13 +374,6 @@ body{
     <button type="button" class="key" data-dir="pause">Pause</button>
     <button type="button" class="key" data-dir="quit">Quit</button>
   </nav>
-  <div class="dials" role="group" aria-label="Phosphor and sound">
-    <span class="dial-label">Phosphor</span>
-    <button type="button" class="key tkey" data-theme="green" aria-pressed="true" aria-label="Green phosphor" style="--c:#33ff66"><i class="lamp"></i><span class="tl">P1</span></button>
-    <button type="button" class="key tkey" data-theme="amber" aria-pressed="false" aria-label="Amber phosphor" style="--c:#ffb000"><i class="lamp"></i><span class="tl">P3</span></button>
-    <button type="button" class="key tkey" data-theme="ice" aria-pressed="false" aria-label="Ice phosphor" style="--c:#9fe7ff"><i class="lamp"></i><span class="tl">Ice</span></button>
-    <button type="button" class="key" id="sndKey" aria-pressed="false" aria-label="Typing sounds" style="--c:#ff5a3c"><i class="lamp"></i><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3.5v11L5 10H2z" fill="currentColor"/><path d="M11.2 5.2a4 4 0 0 1 0 5.6M13 3.4a6.6 6.6 0 0 1 0 9.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><span class="lbl-long">Sound</span></button>
-  </div>
 </footer>
 
 <script>
@@ -604,11 +585,71 @@ const D = (children, date) => ({ type: 'dir', children, date });
 /* ------------------------------------------------------------ project data */
 const PROJECTS = [
   {
+    "id": "botpit",
+    "name": "Botpit",
+    "tagline": "Multiplayer card games with local LLM agents",
+    "statusLabel": "In development",
+    "summary": "A multiplayer card-game platform where human players and local LLM-driven agents share the same table.",
+    "blurb": "Multiplayer card-game platform where humans and local LLM agents play UNO and Hearts together.",
+    "bullets": [
+      "Ships four games in v1 -- Classic UNO, UNO Flip!, UNO Show 'em No Mercy, and Hearts -- on one deterministic referee.",
+      "A single privacy-preserving view function feeds both a human's browser and an AI agent's prompt, so no seat sees more than it could legitimately infer.",
+      "Every AI seat runs its own local model through Ollama with its own persona, and admins can spectate every hand and every agent's private reasoning live."
+    ],
+    "techTags": [
+      "Python",
+      "Docker Compose",
+      "PostgreSQL",
+      "Redis",
+      "Ollama",
+      "Bun"
+    ],
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/withrvr/botpit",
+        "icon": "github"
+      }
+    ],
+    "featured": false
+  },
+  {
+    "id": "collections-workflow",
+    "name": "Collection workflow",
+    "tagline": "Local-LLM collections reporting for ERP data",
+    "statusLabel": "Learning project",
+    "summary": "An accounts-receivable reporting tool that flags overdue invoices and pairs the numbers with a locally generated AI narrative.",
+    "blurb": "FastAPI ERP tool that flags overdue invoices and writes AI-generated collections summaries locally.",
+    "bullets": [
+      "Users upload customer, invoice, payment, and region workbooks; the service produces overdue collections summaries at both invoice and regional level while flagging data-quality issues.",
+      "A locally-hosted Ollama model generates narrative analysis of the findings, instead of leaving the numbers to speak for themselves.",
+      "Built as a learning project integrating a local LLM into a real FastAPI service, with SQLModel, PostgreSQL, React, and TanStack Router."
+    ],
+    "techTags": [
+      "FastAPI",
+      "SQLModel",
+      "PostgreSQL",
+      "React",
+      "TanStack Router",
+      "Docker Compose",
+      "Ollama"
+    ],
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/withrvr/collections-workflow",
+        "icon": "github"
+      }
+    ],
+    "featured": false
+  },
+  {
     "id": "1link",
     "name": "1Link",
     "tagline": "Modular Django link aggregator",
     "statusLabel": "Complete",
     "summary": "One link that holds every link you want to share, built as a modular Django service.",
+    "blurb": "One link that holds every link you want to share, a modular Django service.",
     "bullets": [
       "Architected a modular Django monorepo with 7 decoupled apps for independent scaling.",
       "Exposed a RESTful API layer with DRF serializers, user registration, and dynamic profile URL routing.",
@@ -637,6 +678,7 @@ const PROJECTS = [
     "tagline": "Terminal typing trainer in Rust",
     "statusLabel": "Complete, open source",
     "summary": "A cross-platform terminal typing trainer with live WPM and accuracy across five modes.",
+    "blurb": "Terminal typing trainer in Rust with live WPM and accuracy tracking across five modes.",
     "bullets": [
       "Built a cross-platform terminal typing trainer in Rust with live WPM and accuracy tracking across 5 modes.",
       "Added a themeable TUI with a configurable settings system and persistent session history across runs.",
@@ -663,39 +705,12 @@ const PROJECTS = [
     "featured": true
   },
   {
-    "id": "portfolio-v1",
-    "name": "Portfolio v1",
-    "tagline": "The site this one replaced",
-    "statusLabel": "Archived at v1.1.0",
-    "summary": "My first portfolio, a single-page React and Vite site on GitHub Pages. Retired in July 2026 when this version replaced it; the source is preserved at the v1.1.0 tag.",
-    "bullets": [
-      "Built a single-page portfolio with React 19, Vite, and Tailwind CSS v4, deployed to GitHub Pages via GitHub Actions.",
-      "Kept all display content in one JSON file so text, links, and assets change without touching component code.",
-      "Added a Framer Motion preloader, scroll reveals, and a play-reel hero video.",
-      "Replaced by this site, a Next.js static export, after outgrowing the single-file content model."
-    ],
-    "techTags": [
-      "React",
-      "Vite",
-      "Tailwind CSS",
-      "Framer Motion",
-      "GitHub Pages"
-    ],
-    "links": [
-      {
-        "label": "Archived source, v1.1.0",
-        "href": "https://github.com/withrvr/withrvr.github.io/tree/v1.1.0",
-        "icon": "github"
-      }
-    ],
-    "featured": false
-  },
-  {
     "id": "prompt-navigator",
     "name": "Prompt Navigator",
     "tagline": "Jump to any prompt in your AI chat",
     "statusLabel": "In development",
     "summary": "A browser extension that lists every prompt you sent in ChatGPT, Claude, and Gemini, so you can jump, search, favorite, and export them.",
+    "blurb": "Lists every prompt you sent in ChatGPT, Claude, and Gemini, with jump and search.",
     "bullets": [
       "Lists every message you sent in a conversation on ChatGPT, Claude, and Gemini, with click to scroll, live search, and match highlighting.",
       "Adds favorites, per-prompt copy, and export to JSON, CSV, and PDF, with an auto, dark, and light theme.",
@@ -722,6 +737,7 @@ const PROJECTS = [
     "tagline": "Auto-mute streaming ads during IPL",
     "statusLabel": "Cancelled midway",
     "summary": "A browser extension that silences ads on Hotstar the moment they start and restores your exact volume when the content returns.",
+    "blurb": "Browser extension that auto-mutes Hotstar ads and restores volume after; cancelled midway.",
     "bullets": [
       "Started during an IPL season to auto-mute ads while streaming, muting on ad start and restoring the exact prior volume.",
       "Hotstar's restrictions and dynamic page behavior made it need far more effort than it was worth, so it is currently buggy and not functional.",
@@ -747,6 +763,7 @@ const PROJECTS = [
     "tagline": "Learning Django internals and scaling",
     "statusLabel": "Active learning project",
     "summary": "A URL shortener built to understand Django internals, system scaling, and architecture design decisions. Incomplete by design.",
+    "blurb": "URL shortener built to learn Django internals, system scaling, and architecture decisions.",
     "bullets": [
       "Built with Django and PostgreSQL to learn Django internals from the inside out.",
       "Used as a sandbox for system scaling and architecture design decisions.",
@@ -767,11 +784,41 @@ const PROJECTS = [
     "featured": false
   },
   {
+    "id": "portfolio-v1",
+    "name": "Portfolio v1",
+    "tagline": "The site this one replaced",
+    "statusLabel": "Archived at v1.1.0",
+    "summary": "My first portfolio, a single-page React and Vite site on GitHub Pages. Retired in July 2026 when this version replaced it; the source is preserved at the v1.1.0 tag.",
+    "blurb": "My first portfolio, a single-page React and Vite site, retired and archived at v1.1.0.",
+    "bullets": [
+      "Built a single-page portfolio with React 19, Vite, and Tailwind CSS v4, deployed to GitHub Pages via GitHub Actions.",
+      "Kept all display content in one JSON file so text, links, and assets change without touching component code.",
+      "Added a Framer Motion preloader, scroll reveals, and a play-reel hero video.",
+      "Replaced by this site, a Next.js static export, after outgrowing the single-file content model."
+    ],
+    "techTags": [
+      "React",
+      "Vite",
+      "Tailwind CSS",
+      "Framer Motion",
+      "GitHub Pages"
+    ],
+    "links": [
+      {
+        "label": "Archived source, v1.1.0",
+        "href": "https://github.com/withrvr/withrvr.github.io/tree/v1.1.0",
+        "icon": "github"
+      }
+    ],
+    "featured": false
+  },
+  {
     "id": "github-api",
     "name": "GitHub API Dashboard",
     "tagline": "Surface a developer's most active day",
     "statusLabel": "Complete learning project",
     "summary": "A dashboard that consumes the GitHub API to surface a user's most active working day and commit distribution, built to learn GraphQL and Apollo.",
+    "blurb": "Dashboard consuming the GitHub API to surface a user's most active day and commits.",
     "bullets": [
       "Built to learn GraphQL, consuming external APIs through it, and Apollo GraphQL.",
       "Features a dashboard and charts that surface a user's most active working day and commit distribution."
@@ -798,6 +845,7 @@ const PROJECTS = [
     "tagline": "AI-written email replies in Gmail",
     "statusLabel": "Complete",
     "summary": "A Chrome extension that connects ChatGPT to Gmail and drafts reply emails for incoming messages, built when ChatGPT first launched.",
+    "blurb": "Chrome extension that used ChatGPT to draft Gmail replies, built when ChatGPT first launched.",
     "bullets": [
       "Chrome extension that integrates ChatGPT into Gmail to draft replies for incoming emails.",
       "Built when ChatGPT first launched, to automate routine responses so they did not have to be written by hand."
@@ -823,6 +871,7 @@ const PROJECTS = [
     "tagline": "Pattern muscle memory for chess",
     "statusLabel": "Complete",
     "summary": "Interactive chess training games built to develop reaction time and pattern muscle memory, for myself and people around me.",
+    "blurb": "Interactive chess games built to sharpen reaction time and pattern muscle memory.",
     "bullets": [
       "Chess training games that improve reaction time and pattern muscle memory through interactive play.",
       "Built for myself and for people around me."
@@ -847,6 +896,7 @@ const PROJECTS = [
     "tagline": "Streaming UI built to learn Next.js",
     "statusLabel": "Complete learning project",
     "summary": "A Hulu-style streaming site that shows the latest movies by category, built to learn Next.js, Tailwind, clean UI composition, and external API integration.",
+    "blurb": "Hulu-style streaming UI built with Next.js and Tailwind to learn API integration.",
     "bullets": [
       "Recreated Hulu's interface with Next.js and TypeScript, showing films organized by category.",
       "Built to learn Next.js, Tailwind CSS, clean UI composition, and external API integration."
@@ -871,6 +921,7 @@ const PROJECTS = [
     "tagline": "Solves any puzzle from the 4 = 10 app",
     "statusLabel": "Complete",
     "summary": "A solver bot that finds valid operator combinations for any puzzle from the 4 = 10 app.",
+    "blurb": "Solver bot that finds valid operator combinations for any 4 = 10 app puzzle.",
     "bullets": [
       "Solves any puzzle from the 4 = 10 app by finding operator combinations that reach the target.",
       "Takes any numbers and a desired result and returns valid solutions."
@@ -894,6 +945,7 @@ const PROJECTS = [
     "tagline": "Fetch, search, and filter Twitter data",
     "statusLabel": "Complete",
     "summary": "A Tweepy-based tool that fetches, searches, and filters Twitter data by hashtag and other criteria, with import and export for analysis. Built at a college faculty request.",
+    "blurb": "Tweepy tool to fetch, search, and filter Twitter data by hashtag, for a faculty request.",
     "bullets": [
       "Built at a college faculty request to fetch, search, and filter Twitter data by hashtag and other criteria.",
       "Supports import and export in JSON and CSV for post performance analysis."
@@ -914,7 +966,7 @@ const PROJECTS = [
   }
 ];
 function projectText(p){
-  const lines = [p.name + ' -- ' + p.tagline, 'status: ' + p.statusLabel, '='.repeat(50), p.summary, ''];
+  const lines = [p.name + ' -- ' + p.tagline, 'status: ' + p.statusLabel, '='.repeat(47), p.summary, ''];
   for (const b of p.bullets) lines.push('  - ' + b);
   lines.push('');
   lines.push('tech: ' + p.techTags.join(' . '));
@@ -941,7 +993,7 @@ const FS = D({
   home: D({
     raghav: D({
       'readme.txt': F(T([    'RVR/OS v3.0.1 -- welcome',
-    '======================',
+    '===============================================',
     'This is the terminal portfolio of Raghav Rathi (withrvr), a backend software engineer. Poke around like a real shell:',
     '',
     '  cat about.txt         who I am',
@@ -964,7 +1016,7 @@ const FS = D({
     'Type `help` any time to see the full command list.'
   ]), 'Sep 25  2026'),
       'about.txt': F(T([    'Raghav Rathi -- Backend Software Engineer',
-    '=========================================',
+    '===============================================',
     'I\'m a backend software engineer based in Mumbai, India. I build and ship production systems across the Python ecosystem, from high-concurrency AsyncIO pipelines to FastAPI microservices and AI/LLM integrations.',
     '',
     'At Homeville Group I work on AI microservices, LLM integration, and Python ecosystem projects, reporting to the VP of Technology. I\'ve rebuilt loan processing pipelines, shipped Tier-1 bank integrations, and modernized OCR and reconciliation systems.',
@@ -985,7 +1037,7 @@ const FS = D({
     '  cat skills.txt         what I build with'
   ]), 'Sep 25  2026'),
       'experience.log': F(T([    'WHERE I\'VE BUILT',
-    '==================================================',
+    '===============================================',
     'Homeville Group -- Software Engineer',
     'Jun 2025 -- Oct 2026 -- Mumbai, India',
     'AI microservices, LLM integration, and Python ecosystem projects, reporting to the VP of Technology.',
@@ -1004,7 +1056,7 @@ const FS = D({
     '  - Modernized the OCR pipeline: text extraction, image transformation, and PII masking for images and PDFs.',
     '',
     '  stack: Python . AsyncIO . FastAPI . MySQL . Gemini API . AWS . GCP . OCR',
-    '--------------------------------------------------',
+    '-----------------------------------------------',
     'HN Web Marketing -- Software Engineer Intern',
     'Aug 2021 -- Oct 2021 -- Pune, India',
     'Client projects on Linux production infrastructure.',
@@ -1012,7 +1064,7 @@ const FS = D({
     '  - Built and maintained deployment pipelines for 16+ production client environments on Linux infrastructure.',
     '  - Delivered new client projects from scratch, updated existing ones to meet evolving requirements.',
     '  - Handled production troubleshooting, server config, system updates, and security across client environments.',
-    '--------------------------------------------------',
+    '-----------------------------------------------',
     'Bitlance Tech Hub Pvt Ltd -- Python & Django Developer Intern',
     'May 2020 -- Jul 2020 -- Amravati, India',
     'Training internship, basic Python to advanced Django.',
@@ -1020,12 +1072,12 @@ const FS = D({
     '  - Built RESTful APIs with Django REST Framework and token-based authentication.',
     '  - Modeled data with Django ORM, managed through customized Django Admin.',
     '  - Built NumPy / Pandas pipelines to clean raw datasets and render Chart.js visualizations.',
-    '==================================================',
+    '===============================================',
     '  resume    grab the full PDF',
     '  contact   get in touch'
   ]), 'Sep 25  2026'),
       'skills.txt': F(T([    'TOOLS I BUILD WITH',
-    '==================================================',
+    '===============================================',
     'Backend',
     '  Django . Python . FastAPI . Pydantic . AsyncIO . Celery . RESTful APIs . Microservices . Frappe',
     '',
@@ -1042,7 +1094,7 @@ const FS = D({
     '  JavaScript . TypeScript . HTML/CSS . React . Next.js . Tailwind CSS . Chart.js'
   ]), 'Sep 25  2026'),
       'education.txt': F(T([    'WHERE I\'VE STUDIED',
-    '==================================================',
+    '===============================================',
     'Thadomal Shahani Engineering College, Mumbai',
     'Bachelor of Engineering, Computer Engineering -- 2021-2025',
     '  Data Structures & Algorithms . Analysis of Algorithms . Database Management Systems . Data Warehousing . Operating Systems . Computer Networks . Web Technologies . Software Engineering . Machine Learning',
@@ -1052,7 +1104,7 @@ const FS = D({
     '  Programming in C/C++ . Object-Oriented Programming . Advanced Java . Data Structures . Database Management . Web Programming . Operating Systems . Computer Networks'
   ]), 'Sep 25  2026'),
       'achievements.txt': F(T([    'WHAT I\'VE EARNED',
-    '==================================================',
+    '===============================================',
     'Global Fintech Festival 2025',
     '  Work recognized for the Direct Assignment and Securitization project.',
     '  -> https://www.linkedin.com/posts/withrvr_finternet-tokenisation-financialinnovation-activity-7382068576091873280-1n9Y/',
@@ -1066,7 +1118,7 @@ const FS = D({
     '  -> https://leetcode.com/u/withrvr/'
   ]), 'Sep 25  2026'),
       'contact.txt': F(T([    'GET IN TOUCH',
-    '==================================================',
+    '===============================================',
     'Email     raghavrathi8855@gmail.com',
     'LinkedIn  linkedin.com/in/withrvr',
     'GitHub    github.com/withrvr',
@@ -1076,7 +1128,7 @@ const FS = D({
     'Typing `contact` (not just `cat contact.txt`) opens a pre-filled email in your mail client. `resume` opens the PDF.'
   ]), 'Sep 25  2026'),
       'quotes.md': F(T([    'TOP QUOTES WHICH I ADMIRE THE MOST',
-    '==================================================',
+    '===============================================',
     '1. "Every horse runs in the race, the horse who puts a little bit more effort, WINS the race." -- Vikram Rathi Sir',
     '',
     '2. "When you focus on the good, the good gets better." -- someone',
@@ -1094,7 +1146,7 @@ const FS = D({
       logs: D({
         'boot.log': F(T([    '[ ok ] mounted /dev/hd0 on /',
     '[ ok ] sysd, netd, cron, lpd started',
-    '[ ok ] indexed project archive (12 of 12)',
+    '[ ok ] indexed project archive (14 of 14)',
     '[WARN] coffee level low'
   ]), 'Sep 25  2026')
       }, 'Sep 25  2026'),
@@ -1183,7 +1235,7 @@ function bannerLines(cols){
     for (const r of info) L.push({ cls: '', segs: [S(' '), ...r] });
   }
   L.push('');
-  L.push([S(' * ', 'hot'), S('12 projects on file in '), S('projects/', 'u'), S(cols >= 60 ? '   → ls projects/' : '', 'dim')]);
+  L.push([S(' * ', 'hot'), S('14 projects on file in '), S('projects/', 'u'), S(cols >= 60 ? '   → ls projects/' : '', 'dim')]);
   L.push([S(' * ', 'hot'), S('a few lines I live by in '), S('quotes.md', 'u'), S(cols >= 60 ? '   → cat quotes.md' : '', 'dim')]);
   L.push([S(' * ', 'hot'), S(cols >= 60 ? 'resume ready to send · type resume or contact' : 'type resume or contact')]);
   L.push('');
@@ -1495,11 +1547,15 @@ def('resume', 'open my resume (PDF)', 'resume', async () => {
 });
 def('projects', 'list, or open one by id', 'projects [id]', async (argv) => {
   if (!argv.length){
-    const w = Math.max(...PROJECTS.map(p => p.id.length)) + 2;
     const L = [[S(' PROJECTS ', 'inv'), S('  projects <id> to open one · ls projects/ also works', 'dim')], ''];
-    for (const p of PROJECTS) L.push([S('  ' + p.id.padEnd(w, ' '), 'hot'), S(p.tagline + '  '), S('[' + p.statusLabel + ']', 'dim')]);
-    L.push('');
-    L.push([S('  featured: ', 'dim'), S(PROJECTS.filter(p => p.featured).map(p => p.id).join(', '))]);
+    for (const p of PROJECTS){
+      const head = [S(p.name, 'hot b'), S(' [' + p.statusLabel + ']', 'dim')];
+      for (const l of (p.links || [])) head.push(S(' ['), S(l.label, 'u'), S(']'));
+      L.push(head);
+      L.push([S(p.blurb)]);
+      L.push('');
+    }
+    L.push([S('featured: ', 'dim'), S(PROJECTS.filter(p => p.featured).map(p => p.id).join(', '))]);
     return print(L);
   }
   const id = argv[0].replace(/\.txt$/, '');
@@ -1529,7 +1585,6 @@ function clearScreen(withGhost){
 function applyTheme(t, withFx){
   state.theme = t; root.dataset.theme = t; store.set('theme', t);
   const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', THEMES[t].meta);
-  document.querySelectorAll('.tkey').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.theme === t)));
   $('#stTheme').textContent = '[' + THEMES[t].label + ']';
   if (withFx && !reduced.matches){ crt.classList.remove('degauss'); void crt.offsetWidth; crt.classList.add('degauss'); thunk(); }
   if (bannerEl) renderBanner(false);
@@ -1537,7 +1592,6 @@ function applyTheme(t, withFx){
 function setSound(on){
   state.sound = on; store.set('sound', on);
   if (on) audio();
-  const k = $('#sndKey'); k.setAttribute('aria-pressed', String(on));
   const s = $('#stSound'); s.textContent = on ? '[SND:ON]' : '[SND:OFF]'; s.setAttribute('aria-pressed', String(on));
   if (on) sfxKey('enter');
 }
@@ -1926,8 +1980,6 @@ document.querySelectorAll('#pad .key').forEach(b => b.addEventListener('pointerd
 document.querySelectorAll('#pad .key').forEach(b => b.addEventListener('keydown', e => {
   if ((e.key === 'Enter' || e.key === ' ') && snake){ e.preventDefault(); e.stopPropagation(); const d = b.dataset.dir; if (d === 'pause') snake.pause(); else if (d === 'quit') snake.quit(); else snake.dir(d); }
 }));
-document.querySelectorAll('.tkey').forEach(b => b.addEventListener('click', () => { if (state.theme !== b.dataset.theme) applyTheme(b.dataset.theme, true); }));
-$('#sndKey').addEventListener('click', () => setSound(!state.sound));
 $('#stSound').addEventListener('click', e => { e.stopPropagation(); setSound(!state.sound); });
 $('#stTheme').addEventListener('click', e => {
   e.stopPropagation();
