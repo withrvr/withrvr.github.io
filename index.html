@@ -583,6 +583,16 @@ function hurry(){ fast = true; flushReq = true; for (const o of sleepers){ clear
 
 /* ------------------------------------------------------------ files (real, mine) */
 const T = (lines) => lines.join('\n');
+// Tenure from a start month to now, counted LinkedIn-style (both end months inclusive): "1 yr 5 mos".
+function tenure(year, month){
+  const now = new Date();
+  const total = Math.max(1, (now.getFullYear() - year) * 12 + (now.getMonth() + 1 - month) + 1);
+  const y = Math.floor(total / 12), m = total % 12;
+  const parts = [];
+  if (y) parts.push(y + (y === 1 ? ' yr' : ' yrs'));
+  if (m) parts.push(m + (m === 1 ? ' mo' : ' mos'));
+  return parts.join(' ');
+}
 const F = (content, date) => ({ type: 'file', content, date });
 const D = (children, date) => ({ type: 'dir', children, date });
 
@@ -883,7 +893,7 @@ const FS = D({
     '===============================================',
     'Software Engineer',
     'Homeville Group · Full-time',
-    'Jun 2025 - Present · 1 yr 5 mos',
+    'Jun 2025 - Present · ' + tenure(2025, 6),
     'Mumbai · On-site',
     '',
     '> Ownership of 3 projects across schema design, feature development, and production fixes, guided by and discussed with the VP of Technology',

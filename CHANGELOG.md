@@ -19,7 +19,9 @@ up to the v3 cutover commit.
 - `about.txt` rewritten with the new long-form About.
 - `experience.log`: Homeville Group entry rewritten (now "Jun 2025 -
   Present"), grouped into Securitization / DA, Escrow Management, and
-  LLM Integration / AI Microservices.
+  LLM Integration / AI Microservices. Its "1 yr 5 mos" tenure is
+  computed from Jun 2025 on each page load (LinkedIn-style counting),
+  so it never goes stale.
 - `whoami` now prints the name and the RiVeR tagline.
 - Version strings throughout `index.html` and `README.md` bumped from
   `v3.0.2` to `v3.0.3`.
