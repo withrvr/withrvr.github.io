@@ -8,9 +8,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 v2's changelog (the Next.js build) is preserved in git history on `main`
 up to the v3 cutover commit.
 
+## [3.0.3] - 2026-10-26
+
+### Changed
+
+- Branding: `RVR` renamed to `RiVeR` everywhere it's shown (page title,
+  `RiVeR/OS` name and version badge, block-letter logo, BIOS badge and
+  boot text, footer model, `uname`, `os-release`, weather header). The
+  `withrvr` handle, URLs, and hostname are unchanged.
+- `about.txt` rewritten with the new long-form About.
+- `experience.log`: Homeville Group entry rewritten (now "Jun 2025 -
+  Present"), grouped into Securitization / DA, Escrow Management, and
+  LLM Integration / AI Microservices. Its "1 yr 5 mos" tenure is
+  computed from Jun 2025 on each page load (LinkedIn-style counting),
+  so it never goes stale.
+- `whoami` now prints the name and the RiVeR tagline.
+- Version strings throughout `index.html` and `README.md` bumped from
+  `v3.0.2` to `v3.0.3`.
+- README screenshot regenerated to match.
+
+### Added
+
+- X link (`x.com/withrvr`) in the boot banner, `contact.txt`, and
+  `llms.txt`.
+
 ## [3.0.2] - 2026-09-26
 
 ### Changed
+
+- Project `[GitHub]`/`[crates.io]` tags in the `projects` listing are
+  real links that open the project in a new tab.
+- Footer quick-command buttons are right-aligned on desktop (mobile
+  keeps its left-aligned, scrollable row).
 
 - All `-`/`=` divider strings across `index.html` normalized to exactly
   47 characters (they'd drifted to varying lengths between files).

@@ -1,4 +1,4 @@
-# RVR/OS v3.0.2
+# RiVeR/OS v3.0.3
 
 Personal portfolio of **Raghav Rathi** ([withrvr](https://github.com/withrvr)) —
 a CRT-terminal simulation you drive by typing commands. One static HTML
@@ -6,7 +6,7 @@ file, no framework, no build step.
 
 **Live:** https://withrvr.github.io &nbsp;·&nbsp; try `help` once it boots.
 
-![RVR/OS v3.0 — a CRT-terminal boot screen showing the login sequence and an identity panel with role, stack, and contact links](docs/screenshot.png)
+![RiVeR/OS v3.0 — a CRT-terminal boot screen showing the login sequence and an identity panel with role, stack, and contact links](docs/screenshot.png)
 
 ## How it's built
 

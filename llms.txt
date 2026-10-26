@@ -7,6 +7,7 @@
 - Email: raghavrathi8855@gmail.com
 - LinkedIn: https://linkedin.com/in/withrvr
 - GitHub: https://github.com/withrvr
+- X: https://x.com/withrvr
 - Location: Mumbai, India
 - Stack: linux sql python fastapi django
 - Status: open to SDE-1/2 backend roles
