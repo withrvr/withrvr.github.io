@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RVR/OS v3.0.2 — Raghav Rathi, Backend Engineer</title>
+<title>RiVeR/OS v3.0.3 — Raghav Rathi, Backend Engineer</title>
 <meta name="description" content="Raghav Rathi (withrvr) — Backend Software Engineer. A working CRT-terminal portfolio: cat about.txt, ls projects/, grab the resume, or just play snake.">
 <meta name="theme-color" content="#031a07">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -313,7 +313,7 @@ body{
 </head>
 <body>
 <main class="monitor" id="monitor">
-  <h1 class="sr">RVR/OS — Raghav Rathi, backend software engineer, a terminal portfolio</h1>
+  <h1 class="sr">RiVeR/OS — Raghav Rathi, backend software engineer, a terminal portfolio</h1>
   <div class="screen" id="screen">
     <div class="crt off" id="crt">
       <svg class="bios-badge" id="biosBadge" viewBox="0 0 190 104" aria-hidden="true">
@@ -326,7 +326,7 @@ body{
           <path d="M104 22h78M104 70h78" stroke-width="1.4"/>
         </g>
         <text x="104" y="42" fill="currentColor" font-family="DejaVu Sans Mono, Menlo, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5">WITH</text>
-        <text x="104" y="60" fill="currentColor" font-family="DejaVu Sans Mono, Menlo, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5">RVR</text>
+        <text x="104" y="60" fill="currentColor" font-family="DejaVu Sans Mono, Menlo, Consolas, monospace" font-size="15" font-weight="700" letter-spacing="1.5">RiVeR</text>
         <text x="104" y="88" fill="currentColor" font-family="DejaVu Sans Mono, Menlo, Consolas, monospace" font-size="9" letter-spacing="2.2">BACKEND ENGINEER</text>
       </svg>
       <div class="ghost" id="ghost" aria-hidden="true"></div>
@@ -337,7 +337,7 @@ body{
       </div>
       <canvas class="fx" id="fx" aria-hidden="true"></canvas>
       <div class="status" id="status">
-        <span class="tag">RVR/OS 3.0.2</span>
+        <span class="tag">RiVeR/OS 3.0.3</span>
         <span class="wide">tty1</span>
         <span class="wide" id="stPath">raghav@withrvr:~</span>
         <span class="fill"></span>
@@ -357,7 +357,7 @@ body{
   </div>
 </main>
 <footer class="strip">
-  <div class="brand"><span class="led" id="led"></span><span class="brand-name">withrvr</span><span class="brand-model">RVR-1 · Backend Terminal</span></div>
+  <div class="brand"><span class="led" id="led"></span><span class="brand-name">withrvr</span><span class="brand-model">RiVeR-1 · Backend Terminal</span></div>
   <nav class="keys" id="keys" aria-label="Quick commands">
     <button type="button" class="key" data-cmd="about">About</button>
     <button type="button" class="key" data-cmd="experience">Work</button>
@@ -810,12 +810,12 @@ const FS = D({
   bin: D({}, 'Sep 25  2026'),
   etc: D({
     hostname: F('withrvr', 'Sep 25  2026'),
-    motd: F(T(['Welcome to RVR/OS.', 'cat about.txt to get started.']), 'Sep 25  2026'),
-    'os-release': F(T(['NAME="RVR/OS"', 'VERSION="3.0.2"', 'ID=withrvr', 'VENDOR="withrvr"', 'PRETTY_NAME="RVR/OS v3.0.2"']), 'Sep 25  2026')
+    motd: F(T(['Welcome to RiVeR/OS.', 'cat about.txt to get started.']), 'Sep 25  2026'),
+    'os-release': F(T(['NAME="RiVeR/OS"', 'VERSION="3.0.3"', 'ID=withrvr', 'VENDOR="withrvr"', 'PRETTY_NAME="RiVeR/OS v3.0.3"']), 'Sep 25  2026')
   }, 'Sep 25  2026'),
   home: D({
     raghav: D({
-      'readme.txt': F(T([    'RVR/OS v3.0.2 -- welcome',
+      'readme.txt': F(T([    'RiVeR/OS v3.0.3 -- welcome',
     '===============================================',
     'This is the terminal portfolio of Raghav Rathi (withrvr), a backend software engineer. Poke around like a real shell:',
     '',
@@ -838,45 +838,72 @@ const FS = D({
     '',
     'Type `help` any time to see the full command list.'
   ]), 'Sep 25  2026'),
-      'about.txt': F(T([    'Raghav Rathi -- Backend Software Engineer',
+      'about.txt': F(T([    'About',
     '===============================================',
-    'I\'m a backend software engineer based in Mumbai, India. I build and ship production systems across the Python ecosystem, from high-concurrency AsyncIO pipelines to FastAPI microservices and AI/LLM integrations.',
+    'Only read this if you really want to know who I actually am and what my days look like :)',
     '',
-    'At Homeville Group I work on AI microservices, LLM integration, and Python ecosystem projects, reporting to the VP of Technology. I\'ve rebuilt loan processing pipelines, shipped Tier-1 bank integrations, and modernized OCR and reconciliation systems.',
+    'Short version, if you want to skip. Builder and gamer at heart, and an unfiltered guy who shares everything when I talk. I learn something every day and share it, and I take input from anyone, random strangers and specialists alike, if it makes me better at the craft. I do the same in return, if I see or read something, I share my opinion or raise an issue, and expect the same from anyone. I love talking with anyone, tech or non tech, who enjoys a healthy conversation, and I am completely cool with a clash of opinions, because that is how both of us get better',
     '',
-    'My work was recognized at the Global Fintech Festival 2025. I care about systems that stay fast and correct under real traffic, enterprise constraints, and messy data.',
+    'By title, a backend software engineer who started doing LLM integration and AI workflows. Quietly, somewhere along the way, I turned into an end to end software engineer. Frontend, cloud, DevOps and deploys, QA and testing, planning, architecture, implementation, manage and maintain all of it',
     '',
-    'by the numbers',
-    '  6,000+   concurrent loans handled (was crashing past 300)',
-    '  95%      batch runtime cut (30+ min -> under 2 min)',
-    '  800K+    rows processed per run',
-    '  2        Tier-1 bank integrations shipped end to end',
+    'A normal day looks like',
+    '→ Python, FastAPI, Redis, MySQL, MongoDB, AWS',
+    '→ Claude Code, tmux, Ubuntu, Git, and a lot of .md files',
+    '→ LLM integration, prompting, and watching logs',
+    '→ checking news.ycombinator.com for what changed overnight',
+    '→ drafting a LinkedIn post in my head and usually not posting it, because in the background I am already explaining it like a YouTube video, so it stays with me anyway :/',
     '',
-    'Before this: a Diploma in Computer Engineering at Government Polytechnic Amravati, then a B.E. in Computer Engineering at Thadomal Shahani Engineering College, Mumbai (2021-2025), with internships at HN Web Marketing and Bitlance Tech Hub along the way.',
+    'How I build, correct first, then fast, then maintainable. I build for the failure cases and retries, not just the happy path, because that is what breaks systems at scale',
     '',
-    'Longer term, I\'m building toward products of my own, and eventually leading a team.',
+    'Along the way',
+    '→ Global Fintech Festival 2025 recognition for the DA and Securitization project, integrated with Finternet',
+    '→ LeetCode 1,563 rating, top 30%, 400+ problems, 11 badges',
+    '→ Coding Ninjas Master badge, top 4%',
     '',
-    '  cat experience.log     the detailed version',
-    '  cat skills.txt         what I build with'
+    'Currently',
+    '→ learning from github.com/rohitg00/ai-engineering-from-scratch',
+    '→ posting on x.com/withrvr',
+    '→ reading books and articles on scaling servers for high throughput and low latency',
+    '',
+    'Side projects in focus',
+    '→ TypeRush, stable at v0.7.0, major update coming after a while',
+    '→ Prompt Navigator, browser extension in beta, proper release soon',
+    '→ Currently building a ticket categorizer using System 1 decision models, locally hosted',
+    '→ A gamified, map heavy mobile app for runners, deep in the planning and architecture phase',
+    '',
+    'Next to learn properly, Kubernetes and Kafka, production grade',
+    '',
+    'Thanks for actually reading about who I really am... x_D',
+    '',
+    'Always glad to trade notes with engineers building serious backend or AI native systems.',
+    '',
+    'Follow or connect if you want to stay in the loop, and comment or DM anytime, I read everything'
   ]), 'Sep 25  2026'),
       'experience.log': F(T([    'WHERE I\'VE BUILT',
     '===============================================',
-    'Homeville Group -- Software Engineer',
-    'Jun 2025 -- Oct 2026 -- Mumbai, India',
-    'AI microservices, LLM integration, and Python ecosystem projects, reporting to the VP of Technology.',
+    'Software Engineer',
+    'Homeville Group · Full-time',
+    'Jun 2025 - Present · 1 yr 5 mos',
+    'Mumbai · On-site',
     '',
-    '  - Rebuilt a loan processing pipeline that crashed past 300 concurrent loans into one stably handling 6,000+, with AsyncIO.',
-    '  - Cut batch runtime 95%, from 30+ minutes to under 2 minutes, across ~800K rows per run.',
-    '  - Eliminated a MySQL query bottleneck, cutting latency from 80 seconds to 7 seconds at high concurrency.',
-    '  - Scaled backend task processing with async workers and queues, improving throughput and reducing latency.',
-    '  - Owned 3 projects: schema decisions, feature builds, and independently fixing production bugs.',
-    '  - Built and shipped 2 Tier-1 bank integrations end to end, with idempotent data contracts for critical transactions.',
-    '  - Spearheaded a FastAPI speech-to-text and translation service with Gemini API summaries, end to end.',
-    '  - Benchmarked open-source and cloud transcription models; selected Fast Whisper for production.',
-    '  - Built a rule-based policy engine for investors to define custom loan risk rules.',
-    '  - Developed CRON-driven async workers for event-driven automation, anomaly detection, and reporting.',
-    '  - Migrated the multi-tenant reconciliation engine to Python.',
-    '  - Modernized the OCR pipeline: text extraction, image transformation, and PII masking for images and PDFs.',
+    '> Ownership of 3 projects across schema design, feature development, and production fixes, guided by and discussed with the VP of Technology',
+    '',
+    'Securitization / DA',
+    '  - Rebuilt loan processing from crashing at 300 to handling 6,000+ concurrent loans',
+    '  - Cut batch processing time by 95% across ~800K rows',
+    '  - Reduced database query latency from 80s to 7s',
+    '  - Improved RPS bulk insert performance by 4× using dual queues, workers, and indexing to prevent deadlocks',
+    '  - Built company-specific SSO for partners/investors, employee on-boarding, and role-based access management',
+    '  - Built investor policy rule builder for loan matching, rejection, and risk assessment',
+    '',
+    'Escrow Management',
+    '  - Managed and maintained the multi-tenant reconciliation system',
+    '  - Integrated two Tier-1 banks with idempotent transaction handling',
+    '',
+    'LLM Integration / AI Microservices',
+    '  - Self-hosted LLMs and benchmarked models across use cases for production selection',
+    '  - Built FastAPI speech-to-text and translation service with Gemini-powered summaries',
+    '  - Improved OCR pipelines for image/PDF extraction and PII masking',
     '',
     '  stack: Python . AsyncIO . FastAPI . MySQL . Gemini API . AWS . GCP . OCR',
     '-----------------------------------------------',
@@ -945,6 +972,7 @@ const FS = D({
     'Email     raghavrathi8855@gmail.com',
     'LinkedIn  linkedin.com/in/withrvr',
     'GitHub    github.com/withrvr',
+    'X         x.com/withrvr',
     'LeetCode  leetcode.com/u/withrvr',
     'Location  Mumbai, India',
     '',
@@ -1001,12 +1029,12 @@ const sizeOf = n => n.type === 'dir' ? 512 : n.type === 'exe' ? 4096 + (n.name.l
 
 /* ------------------------------------------------------------ art */
 const LOGO = [
-  '██████╗ ██╗   ██╗██████╗',
-  '██╔══██╗██║   ██║██╔══██╗',
-  '██████╔╝██║   ██║██████╔╝',
-  '██╔══██╗╚██╗ ██╔╝██╔══██╗',
-  '██║  ██║ ╚████╔╝ ██║  ██║',
-  '╚═╝  ╚═╝  ╚═══╝  ╚═╝  ╚═╝'
+  '██████╗  ██╗ ██╗   ██╗  ██████╗  ██████╗',
+  '██╔══██╗ ╚═╝ ██║   ██║ ██╔═══██╗ ██╔══██╗',
+  '██████╔╝ ██╗ ██║   ██║ ████████║ ██████╔╝',
+  '██╔══██╗ ██║ ╚██╗ ██╔╝ ██╔═════╝ ██╔══██╗',
+  '██║  ██║ ██║  ╚████╔╝  ╚███████╗ ██║  ██║',
+  '╚═╝  ╚═╝ ╚═╝   ╚═══╝    ╚══════╝ ╚═╝  ╚═╝'
 ];
 const EMBLEM = [
   '             |',
@@ -1034,19 +1062,20 @@ let bannerEl = null;
 function bannerLines(cols){
   const L = [];
   if (cols >= 46){ for (const s of LOGO) L.push({ cls: 'logo', segs: [S(s, 'hot')] }); }
-  else L.push({ cls: '', segs: [S('W I T H R V R', 'hot b')] });
-  L.push({ cls: '', segs: [S(' /OS v3.0.2 ', 'inv'), S(cols >= 52 ? '  Backend Software Engineer · Mumbai' : '  backend engineer', 'dim')] });
+  else L.push({ cls: '', segs: [S('R i V e R', 'hot b')] });
+  L.push({ cls: '', segs: [S(' /OS v3.0.3 ', 'inv'), S(cols >= 52 ? '  Backend Software Engineer · Mumbai' : '  backend engineer', 'dim')] });
   L.push('');
   const info = [
     [S('raghav', 'hot b'), S('@', 'dim'), S('withrvr', 'hot b')],
     [S('───────────────', 'dim')],
-    [S('OS       ', 'dim'), S('RVR/OS v3.0.2')],
+    [S('OS       ', 'dim'), S('RiVeR/OS v3.0.3')],
     [S('Role     ', 'dim'), S('Backend Software Engineer')],
     [S('Base     ', 'dim'), S('Mumbai, India')],
     [S('Stack    ', 'dim'), S('linux sql python fastapi django')],
     [S('Status   ', 'dim'), S('open to SDE-1/2 backend roles')],
     [S('LinkedIn ', 'dim'), S('linkedin.com/in/withrvr')],
     [S('GitHub   ', 'dim'), S('github.com/withrvr')],
+    [S('X        ', 'dim'), S('x.com/withrvr')],
     [S('Uptime   ', 'dim'), S(uptimeStr())],
     [S('░░░', 'faint'), S('▒▒▒', 'dim'), S('▓▓▓'), S('███', 'hot')]
   ];
@@ -1244,7 +1273,7 @@ def('help', 'this list', 'help', async () => {
   const rows = Object.values(CMDS).filter(c => !c.hidden);
   const { cols } = measure();
   const w = cols >= 64 ? 26 : 0;
-  const L = [[S(' RVR/OS v3.0.2 ', 'inv'), S('  built-in commands', 'dim')], ''];
+  const L = [[S(' RiVeR/OS v3.0.3 ', 'inv'), S('  built-in commands', 'dim')], ''];
   for (const c of rows){
     if (w) L.push([S('  ' + c.usage.padEnd(w, ' '), 'hot'), S(c.desc, '')]);
     else { L.push([S('  ' + c.usage, 'hot')]); L.push([S('      ' + c.desc, 'dim')]); }
@@ -1310,7 +1339,7 @@ def('date', 'current date and time', 'date', () => {
   const d = new Date();
   return print([fmtDate(d), [S(`day ${dayOfYear(d)} · ISO week ${isoWeek(d)} · RTC battery 87 %`, 'dim')]]);
 });
-def('whoami', 'who you are', 'whoami', () => print(['raghav', [S('uid=1000(raghav) gid=100(engineering) groups=100(engineering),27(backend) · backend software engineer', 'dim')]]));
+def('whoami', 'who you are', 'whoami', () => print([[S('Raghav Rathi', 'hot b')], [S('RiVeR ~ goes with flow ~~ SDE by day, building side projects using AI by night 😅', 'dim')]]));
 def('theme', 'switch phosphor', 'theme <green|amber|ice>', async (argv) => {
   const t = (argv[0] || '').toLowerCase();
   if (!THEMES[t]) return print([[S('usage: theme green|amber|ice   ', ''), S('(current: ' + state.theme + ')', 'dim')]]);
@@ -1326,7 +1355,7 @@ def('history', 'command history', 'history', () => {
   return print(h.length ? h.map((c, i) => [S(String(off + i + 1).padStart(4, ' ') + '  ', 'dim'), S(c)]) : [[S('(no history yet)', 'dim')]]);
 });
 def('echo', 'print text', 'echo <text>', (argv, raw) => print([raw.replace(/^\s*echo\s?/i, '')]));
-def('uname', 'system name', 'uname [-a]', (argv) => print([argv.includes('-a') ? 'RVR withrvr 3.0.0-backend #1 Sep 2026 rvr1 RVR/OS' : 'RVR/OS']));
+def('uname', 'system name', 'uname [-a]', (argv) => print([argv.includes('-a') ? 'RiVeR withrvr 3.0.0-backend #1 Sep 2026 river1 RiVeR/OS' : 'RiVeR/OS']));
 def('uptime', 'time since power-on', 'uptime', () => {
   const d = new Date(); const s = Math.floor((Date.now() - state.bootAt) / 1000);
   return print([` ${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())} up ${Math.floor(s / 3600)}:${pad2(Math.floor(s / 60) % 60)}, 1 user, load average: 0.0${1 + (s % 7)}, 0.03, 0.01`]);
@@ -1457,7 +1486,7 @@ async function boot(isReboot){
     ''
   ], fast ? Infinity : 2600);
   await sleep(120);
-  await emit([narrow ? 'RVR-1/68030 CPU at 33 MHz, FPU present' : 'RVR-1/68030 CPU at 33 MHz · FPU present · 256 B cache'], fast ? Infinity : 3200);
+  await emit([narrow ? 'RiVeR-1/68030 CPU at 33 MHz, FPU present' : 'RiVeR-1/68030 CPU at 33 MHz · FPU present · 256 B cache'], fast ? Infinity : 3200);
   const mem = newLine('');
   await new Promise(res => {
     const t0 = performance.now(), D0 = 520;
@@ -1474,7 +1503,7 @@ async function boot(isReboot){
   await sleep(110);
   await emit([''], Infinity);
   const devs = [
-    ['Primary Master', 'RVR-DISK 120 MB'],
+    ['Primary Master', 'RiVeR-DISK 120 MB'],
     ['Primary Slave', 'None', 'dim'],
     ['Tape Drive', 'QIC-80 streamer'],
     ['Serial COM1', '19200 baud modem'],
@@ -1491,7 +1520,7 @@ async function boot(isReboot){
   await emit(['', [S(narrow ? 'Press DEL for SETUP · any key skips' : 'Press DEL to enter SETUP · any key to skip boot', 'dim')], ''], Infinity);
   await sleep(240);
   badge.classList.remove('show');
-  await emit([[S('Booting from RVR-DISK …', 'b')], [S('RVR/OS v3.0.2 loading', '')]], fast ? Infinity : 2400);
+  await emit([[S('Booting from RiVeR-DISK …', 'b')], [S('RiVeR/OS v3.0.3 loading', '')]], fast ? Infinity : 2400);
   const bar = newLine('');
   const BW = narrow ? 18 : 32;
   await new Promise(res => {
@@ -1525,7 +1554,7 @@ async function boot(isReboot){
 async function login(my){
   if (my == null) my = ++bootToken;
   state.mode = 'boot';
-  await emit([[S('RVR/OS v3.0.2 (withrvr) (tty1)', 'dim')], ''], Infinity);
+  await emit([[S('RiVeR/OS v3.0.3 (withrvr) (tty1)', 'dim')], ''], Infinity);
   const ln = newLine('');
   appendTo(ln, 'withrvr login: ');
   await sleep(170);
@@ -1560,7 +1589,7 @@ async function weather(){
   const { cols } = measure();
   const W = WX[now];
   const L = [
-    [S(' RVR WEATHER SERVICE ', 'inv'), S(cols >= 60 ? '  Mumbai, India (simulated)' : '', 'dim')],
+    [S(' RiVeR WEATHER SERVICE ', 'inv'), S(cols >= 60 ? '  Mumbai, India (simulated)' : '', 'dim')],
     [S(`${DAYS[d.getDay()]} ${d.getDate()} ${MONS[d.getMonth()]} · ${pad2(d.getHours())}:${pad2(d.getMinutes())} local · issued locally`, 'dim')],
     ''
   ];
